@@ -29,7 +29,10 @@ The package include functions to extract feature and treatment data from transcr
 
 <code>
 library(devtools)
+</code>
+
+<code>
 install_github("teff-package/teff")
 </code>
 
-and see vignettes [teff]((https://alejandro-isglobal.github.io/teff/teff.html) and [dimorphisms](https://alejandro-isglobal.github.io/teff/dimorphisms.html) 
+and see vignettes [teff](https://alejandro-isglobal.github.io/teff/teff.html) and [dimorphisms](https://alejandro-isglobal.github.io/teff/dimorphisms.html) 
