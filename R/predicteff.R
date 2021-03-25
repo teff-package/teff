@@ -220,7 +220,10 @@ predicteff <- function(x,
   #output
   res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1)
 
-
+  if(dup==TRUE){
+    selnotdup <- duplicated(subsids[sm])
+    res <- list(predictions=tau.hat$predictions[selnotdup], featurenames=featureimp,  cl=cl[selnotdup], cu=cu[selnotdup], subsids=subsids[sm][selnotdup], treatment = (W.test*1)[selnotdup])
+  }
   #add profiling to output
   if (profile){
 
