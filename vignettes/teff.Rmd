@@ -1,0 +1,99 @@
+---
+title: "Predicting treatment effects with teff"
+author: 
+  - name: Alejandro Caceres
+    affiliation: 
+    - Instituto de Salud Global de Barcelona (ISGlobal), Barcelona, Spain
+    - Department of Mathematics, Escola d'Enginyeria de Barcelona Est (EEBE) Universitat Politècnica de Catalunya, Barcelona Spain.
+    email: alejandro.caceres@isglobal.org 
+  - name: Juan R. González
+    affiliation: 
+  - Instituto de Salud Global de Barcelona (ISGlobal), Barcelona, Spain
+  - Department of Mathematics, Universitat Autònoma de Barcelona, Barcelona, Spain 
+package: teff
+output: 
+  BiocStyle::html_document:
+    number_sections: true
+    toc_float: yes
+vignette: >
+  %\VignetteIndexEntry{Predicting treatment effects with teff}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+# Introduction
+
+<code>teff</code> is a software package to predict the effect of treating an individual given the individual's profile in some feature data. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package <core>grf</code> by Tibshirani et al. 
+
+Here, we show how to use the package to estimate transcriptomic profiles of psoriasis patients that strongly respond to brodalumab treatment (more details in Caceres et al. 2021, under preparation). Publicly available data has been downloaded from GEO for accession number GSE117468. This is data from a clinical trial of brodalumab treatment of psoriasis patients.
+
+
+# Analysis
+
+
+```{r, message=FALSE, warning=FALSE}
+library(teff)
+```
+
+We ﬁrst obtained clinical data relating to age, BMI, psoriasis area-and-severity-index (PASI) at baseline and at week 12 after treatment, and brodalumab or placebo treatment. 
+
+The <core>psoriasis</code> data set is a list that contains the  
+<core>teffdata</core> with variables: <core>eff</core> for the effect, namely the improvement of PASI score at week 12 with 1: improved PASI after treatment, 0: did not improve PASI after treatment; <core>t</core> for treatment with 0:placebo, 1:brodalumab; and covariates such as <core>age</core>, <core>bmi</core> and  <core>cov5</core>..., which are surrogate variables estimated for the transcription data, and associated to latent technical differences in their measurement.  
+
+```{r}
+names(psoriasis)
+head(psoriasis$teffdata[,1:10])
+```
+The transcriptomic feature data contains the expression levels of 87 genes in none lesional skin at baseline that were found significant in the differential expression analysis of the interaction between PASI improvement and treatment (more details in Caceres et al. 2021, under preparation). 
+
+
+```{r}
+dim(psoriasis$features)
+head(psoriasis$features[,1:10])
+```
+
+We then use <code>predictteff</code> to estimate the effect of treatment on PASI improvement on a subsample of test individuals. The function randomly selects 80\% of individuals to grow the forest using the feature data, adjusted by covariates. The predictor is applied on the \20% of left-out individuals, who are used to estimate the effect of treatment on each of them, given their gene expression levels across all the genes. 
+
+
+```{r}
+pso <- predicteff(psoriasis, dup=TRUE)
+
+pso
+```
+
+We can plot the prediction of treatment effect with confidence intervals. We have implemented the <code>dup</code> option for handling data sets with few individuals. 
+
+```{r}
+plot(pso)
+```
+
+
+This is a prediction of the probability of treatment for each individual at baseline on nonlesional skin. Not treated refers to patients who ended up receiving placebo, and treated to those under brodalumab. We can compare the prediction with the observed improvement after week 12. 
+
+
+```{r}
+plot(pso, rk =pasiw12, xlab="Observed PASI week 12")
+```
+
+
+
+The relationship between predicted treatment effect and observed PASI reduction levels is better analyzed with a dose-respose relationship using the <code>drc</code> package
+
+```{r, message=FALSE, warning=FALSE}
+library(drc)
+
+response <- pasiw12[pso$subsids]
+predictions <- pso$predictions
+treatment <- factor(pso$treatment, labels = c("placebo", "brodalumab"))
+
+mod <- drm(response*100~predictions, treatment, fct=LL.3())
+
+plot(mod, pch=16, col=c("orange", "blue"), 
+     legendPos=c(0.36,-0.25), 
+     ylab="PASI improvement week12", 
+     xlab="Predicted treatment effect")
+```
+
+We see that while individuals receiving placebo did not improve PASI, some would have strongly benefited from treatment. For individuals who ended up in brodalumab treatment, we can see a strong relationship between predicted treatment effect at baseline and the finally observed PASI improvement at week 12.  
+
