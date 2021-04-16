@@ -65,7 +65,7 @@ pso
 We can plot the prediction of treatment effect with confidence intervals. We have implemented the <code>dup</code> option for handling data sets with few individuals. 
 
 ```{r}
-plot(pso)
+plotPredict(pso)
 ```
 
 
@@ -73,7 +73,7 @@ This is a prediction of the probability of treatment for each individual at base
 
 
 ```{r}
-plot(pso, rk =pasiw12, xlab="Observed PASI week 12")
+plotPredict(pso, rk =pasiw12, xlab="Observed PASI week 12")
 ```
 
 

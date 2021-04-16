@@ -17,8 +17,14 @@ pred <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
 pred
 
 
+x <- pred 
+rk=NULL
+lb="Associated treatment effect"
+xlab = "Subject Ranking"
+ctrl.plot = NULL
+
 ## -----------------------------------------------------------------------------
-plot(pred)
+plotPredict(pred)
 
 ## -----------------------------------------------------------------------------
 pred$profile
@@ -43,7 +49,7 @@ names(data4teff)
 names(data4teff$teffdata)
 
 ## -----------------------------------------------------------------------------
-res <- target(data4teff, pred, plot=TRUE, effect="highandlow", featuresinf=homologous, nmcov="age.ch1", model="binomial")
+res <- target(data4teff, pred, plot=TRUE, effect="positive", featuresinf=homologous, nmcov="age.ch1", model="binomial")
 
 res
 
@@ -51,9 +57,9 @@ res
 data(tcell)
 homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
-res <- target(tcell, pf, effect="highandlow", featuresinf=homologous, nmcov="age", model="log2")
+res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 res
 
 ## -----------------------------------------------------------------------------
-plot(res)
+plotTarget(res)
 

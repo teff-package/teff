@@ -14,16 +14,20 @@ Imports:
     survival,
     methods,
     graphics,
+    raster,
     stats,
     SummarizedExperiment,
     Biobase,
     minfi,
     sva,
+    ggplot2,
+    ggpubr,
 Suggests:
     BiocStyle,
     testthat,
     knitr,
     rmarkdown,
+    drc,
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

@@ -4,10 +4,10 @@ This is an R Package for predicting which individuals would response best to tre
 
 ## What it does
 
-<code>teff</code> is a software package to predict the effect of treating an individual given the individual's profile in some feature data. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package <core>grf</code> by Tibshirani et al. 
+<code>teff</code> is a software package to predict the effect of treating a single individual given the individual's profile in some feature data. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package <core>grf</code> by Tibshirani et al.
 
-With the extracted profiles, new individuals with feature data can be targeted and classified. If treatment and effect data is available for these new individuals the package can test
-whether the association between the treatment and the effect is indeed different across subpopulations. 
+With the extracted profiles, new individuals according to their feature data can be targeted and classified into groups where the treatment is significantly positive or negative on the effect. If treatment and effect data is available for these new individuals the package can test
+whether the association between the treatment and the effect is indeed different across groups of associated positive and negative treatment effects. 
 
 Applications include:
 
@@ -19,7 +19,7 @@ Applications include:
 
 The classification is based on the application of random causal forest to identify the individuals with significant treatment effects. Individuals with significant treatment effects are considered for those whose confidence intervals for the treatment estimate do not overlap 0. 
 
-When possible, single consensus profiles of individuals with high, and low, treatment effects are obtained from majority votes of features adjusted for covariates.
+When possible, single consensus profiles of individuals with positive, and negative, treatment effects are obtained from majority votes of features adjusted for covariates.
 
 ## Additional functions
 

@@ -5,10 +5,10 @@
 #' treatment effects. Individuals with significant treatment effects
 #' are considered for those whose confidence intervals for the treatment
 #' estimate do not overlap 0. Single consensus profiles of individuals with
-#' high, and low, treatment effects are obtained from majority votes of
+#' positive, and negative, treatment effects are obtained from majority votes of
 #' adjusted features, binarized over the population means.
 #'
-#' The result is two profiles, associated with high and low
+#' The result is two profiles, associated with positive and negative
 #' treatment effects, given by logical vectors across the
 #' features. The logical value of a given profile at feature indicates whether the
 #' adjusted feature of a new individual should be higher than the feature population
@@ -36,7 +36,7 @@
 #' with top information score from the causal forest.
 #' By default it selects all the features (Default: Inf).
 #' @param profile a logical. If \code{TRUE} then it estimates a profile of binarized
-#' feature data for the individuals with significantly high and low treatment effects, respectively.
+#' feature data for the individuals with significantly positive and negative treatment effects, respectively.
 #' @param dup a logical that indicates whether the feature and teff data should
 #' be duplicated in case of small datasets.
 #' @return  a \code{list} of class \code{pteff} with fields:
@@ -50,9 +50,9 @@
 #' intervals for the estimated treatment effect.}
 #' \item{subsids:}{a \code{vector} with ids of subjects in the test set.}
 #' \item{treatment:}{a \code{vector} with treatment effect in the test set.}
-#' \item{profile:}{a \code{list} with fields \code{profhigh} and \code{proflow}
+#' \item{profile:}{a \code{list} with fields \code{profpositive} and \code{profnegative}
 #' that are matrices with binarized feature data for the individuals with
-#' significantly high and low treatment effects, respectively.}
+#' significantly positive and negative treatment effects, respectively.}
 #' }
 #' @export
 #'
@@ -227,8 +227,8 @@ predicteff <- function(x,
   #add profiling to output
   if (profile){
 
-    sighethigh <- (cl>0) + 1
-    sighetlow <-  (cu<0) + 1
+    sighetpositive <- (cl>0) + 1
+    sighetnegative <-  (cu<0) + 1
 
 
     #get profile for top featurenames define by quant
@@ -245,29 +245,29 @@ predicteff <- function(x,
     profall <- do.call(cbind, profall)
 
     #Profiles of individuals with significant heterogeneous treatment-effects
-    profhigh <- profall[sighethigh==2,]
-    proflow <- profall[sighetlow==2,]
+    profpositive <- profall[sighetpositive==2,]
+    profnegative <- profall[sighetnegative==2,]
 
 
-    if(is.matrix(profhigh)==FALSE)
-      profhigh <- matrix(profhigh, ncol=ncol(profall))
+    if(is.matrix(profpositive)==FALSE)
+      profpositive <- matrix(profpositive, ncol=ncol(profall))
 
-    if(is.matrix(proflow)==FALSE)
-      proflow <- matrix(proflow, ncol=ncol(profall))
+    if(is.matrix(profnegative)==FALSE)
+      profnegative <- matrix(profnegative, ncol=ncol(profall))
 
     #summarize subject profiles into a single one representing individuals with
-    #high treatment effects
-    profhigh <- matrix(colMeans(profhigh, na.rm=TRUE)>0.5, nrow=1)
+    #positive treatment effects
+    profpositive <- matrix(colMeans(profpositive, na.rm=TRUE)>0.5, nrow=1)
 
-    #and low treatment effects
-    proflow <- matrix(colMeans(proflow, na.rm=TRUE)>0.5, nrow=1)
+    #and negative treatment effects
+    profnegative <- matrix(colMeans(profnegative, na.rm=TRUE)>0.5, nrow=1)
 
-    colnames(profhigh) <- colnames(Xscale)
-    colnames(proflow) <- colnames(Xscale)
+    colnames(profpositive) <- colnames(Xscale)
+    colnames(profnegative) <- colnames(Xscale)
 
     ##########
     #gather output
-    res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1, profile=list(profhigh=profhigh,proflow=proflow))
+    res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1, profile=list(profpositive=profpositive,profnegative=profnegative))
   }
 
 

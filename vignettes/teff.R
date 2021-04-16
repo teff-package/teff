@@ -15,10 +15,10 @@ pso <- predicteff(psoriasis, dup=TRUE)
 pso
 
 ## -----------------------------------------------------------------------------
-plot(pso)
+plotPredict(pso)
 
 ## -----------------------------------------------------------------------------
-plot(pso, rk =pasiw12, xlab="Observed PASI week 12")
+plotPredict(pso, rk =pasiw12, xlab="Observed PASI week 12")
 
 ## ---- message=FALSE, warning=FALSE--------------------------------------------
 library(drc)

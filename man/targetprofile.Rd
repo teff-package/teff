@@ -10,16 +10,16 @@ targetprofile(binfeatures, profileRef, match = 0.8)
 \item{binfeatures}{binarized feature data with respect to the mean value over
 the subjects in the feature data to be targeted}
 
-\item{profileRef}{reference profile of high or low treatment effects as obtained by
+\item{profileRef}{reference profile of positive or negative treatment effects as obtained by
 \link[teff]{profile}}
 
 \item{match}{\code{numeric} value between 0 and 1 indicating the level of the match for the targeing
 across all the binarized features in the profile. A value of 1 means that all the binarized
-features must take identical values in the profile (i,e "high") for an individual to be clsssified
-in its subpopulation (of high treatment effects).}
+features must take identical values in the profile (i,e "positive") for an individual to be clsssified
+in its subpopulation (of positive treatment effects).}
 }
 \value{
-a logical vector indivcating the featrues that matched the profile
+a logical vector indicating the features that matched the profile
 }
 \description{
 Match subjects to profiles

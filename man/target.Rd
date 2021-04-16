@@ -2,14 +2,15 @@
 % Please edit documentation in R/target.R
 \name{target}
 \alias{target}
-\title{Targets individuals into groups of high, low or neutral treatment effects}
+\title{Targets individuals into groups of positive, negative or neutral treatment effects}
 \usage{
 target(
   x,
   pteffObject,
-  effect = "high",
+  effect = "positive",
   featuresinf = NULL,
   plot = TRUE,
+  lb = NULL,
   model = "gaussian",
   match = 0.8,
   nmcov = NULL,
@@ -27,15 +28,17 @@ significant  treatments.}
 
 \item{pteffObject}{object of class \code{pteff}}
 
-\item{effect}{\code{character} with one of the values: "high", "low", "highandlow", indicating
-which subpopulation to be targeted: subpopulation with high treatment effect only, low
-treatment effect only or both, respectively (Default: high).}
+\item{effect}{\code{character} with one of the values: "positive", "negative", "positiveandnegative", indicating
+which subpopulation to be targeted: subpopulation with positive treatment effect only, negative
+treatment effect only or both, respectively (Default: positive).}
 
 \item{featuresinf}{a \code{vector} of characters with the names of the
 features to be used; a \code{matrix} of characters whose columns are
 names of features whose values will be averaged (Default:NULL).}
 
 \item{plot}{\code{logical} indicating a whether a plot of the targeting will be produced}
+
+\item{lb}{\code{character} indicating labels for features plot.}
 
 \item{model}{\code{character} with one of the values corresponding to the family argument of a
 general linear model (\link[stats]{glm}), such as: "gaussian", "binomial", etc. It also allows "beta" for beta
@@ -44,8 +47,8 @@ transformation of the effects (Default: "gaussian").}
 
 \item{match}{\code{numeric} value between 0 and 1 indicating the level of the match for the targeing
 across all the binarized features in the profile. A value of 1 means that all the binarized
-features must take identical values in the profile (i,e "high") for an individual to be clsssified
-in its subpopulation (of high treatment effects).}
+features must take identical values in the profile (i,e "positive") for an individual to be clsssified
+in its subpopulation (of positive treatment effects).}
 
 \item{nmcov}{vector of \code{character} with the names of the covariates to be included in the models.}
 
@@ -58,18 +61,18 @@ computation (Default:1).}
 a \code{list} of class \code{tarteff} with fields:
 \describe{
 \item{classification:}{classification of individuals into subpopulations of
-expected high and/or low treatment effects}
+expected positive and/or negative treatment effects}
 \item{summary.model:}{a \code{summary} of the model used to test the interaction between
-the profile ("highandlow": high=1, neutral=0, low=-1; "high": high=1, neutral=0,
-"low": low=1, neutral=0) with the effect.}
+the profile ("positiveandnegative": positive=1, neutral=0, negative=-1; "positive": positive=1, neutral=0,
+"negative": negative=1, neutral=0) with the effect.}
 }
 }
 \description{
-Targets individuals into groups of high, low or neutral treatment effects
+Targets individuals into groups of positive, negative or neutral treatment effects
 }
 \details{
 This function uses feature data of individuals to classify them
-into subpopulations associated with high and low treatment effects. The
+into subpopulations associated with positive and negative treatment effects. The
 classification is performed by targeting the feature data (adjusted by
 covariates and binarized) to the profiles computed in \link[teff]{profile}.
 
@@ -87,7 +90,7 @@ and/or other types of effects expected from the treatment.
 data(tcell)
 homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
-res <- target(tcell, pf, effect="highandlow", featuresinf=homologous, nmcov="age", model="log2")
+res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 res
 
 }

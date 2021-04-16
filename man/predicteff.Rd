@@ -45,7 +45,7 @@ By default it selects all the features (Default: Inf).}
 be duplicated in case of small datasets.}
 
 \item{profile}{a logical. If \code{TRUE} then it estimates a profile of binarized
-feature data for the individuals with significantly high and low treatment effects, respectively.}
+feature data for the individuals with significantly positive and negative treatment effects, respectively.}
 }
 \value{
 a \code{list} of class \code{pteff} with fields:
@@ -59,9 +59,9 @@ intervals for the estimated treatment effect.}
 intervals for the estimated treatment effect.}
 \item{subsids:}{a \code{vector} with ids of subjects in the test set.}
 \item{treatment:}{a \code{vector} with treatment effect in the test set.}
-\item{profile:}{a \code{list} with fields \code{profhigh} and \code{proflow}
+\item{profile:}{a \code{list} with fields \code{profpositive} and \code{profnegative}
 that are matrices with binarized feature data for the individuals with
-significantly high and low treatment effects, respectively.}
+significantly positive and negative treatment effects, respectively.}
 }
 }
 \description{
@@ -73,10 +73,10 @@ random causal forest and identify the individuals with significant
 treatment effects. Individuals with significant treatment effects
 are considered for those whose confidence intervals for the treatment
 estimate do not overlap 0. Single consensus profiles of individuals with
-high, and low, treatment effects are obtained from majority votes of
+positive, and negative, treatment effects are obtained from majority votes of
 adjusted features, binarized over the population means.
 
-The result is two profiles, associated with high and low
+The result is two profiles, associated with positive and negative
 treatment effects, given by logical vectors across the
 features. The logical value of a given profile at feature indicates whether the
 adjusted feature of a new individual should be higher than the feature population
