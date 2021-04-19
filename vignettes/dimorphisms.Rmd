@@ -27,9 +27,9 @@ vignette: >
 
 # Introduction
 
-<code>teff</code> is a software package to predict the effect of treating an individual given the individual's profile in some feature data. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package <core>grf</code> by Tibshirani et al. 
+<code>teff</code> is a software package to predict the effect of treating an individual on an outcome given the individual's profile in some feature data. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package  [grf](https://github.com/grf-labs/grf) by Tibshirani et al. 
 
-Here, we show how to use the package to estimate transcriptomic profiles with positive immune sexual dimorphism. We use sex as a treatment and therefore search for the transcription profiles for which the effect of sex is high on the amount of immune cells in blood.
+Here, we show how to use the package to estimate transcriptomic profiles with positive and negative sexual dimorphism on immune cell count. We use sex as a treatment and therefore search for the transcription profiles for which the effect of sex is high on the amount of immune cells in blood.
 
 We have inferred the amount of T cells in blood in the GTEx individuals and have preselected the transcriptomic features with a differential expression analysis of the interaction between T cell count and sex (more details in Caceres et al. 2021, under preparation). 
 
@@ -42,13 +42,13 @@ library(teff)
 ```
 
 The <core>tcell</code> data set is a list that contains the  
-<core>teffdata</core> with variables: <core>eff</core> for the effect, namely the infered T-cell count in blood, <core>t</core> for treatment; 1:male, 2:female, and covariates such as <core>age</core>, <core>bmi</core> and  <core>cov5</core>, which is a surrogate variable estimated for the transcription data, and associated to latent technical differences in their measurement.  
+<core>teffdata</core> with variables: <core>eff</core> for the outcome on which the effect is measured, namely the infered T-cell count in blood, <core>t</core> for treatment; 1:male, 2:female, and covariates such as <core>age</core>, <core>bmi</core> and  <core>cov5</core>, which is a surrogate variable estimated for the transcription data, and associated to latent technical differences in their measurement.  
 
 ```{r}
 names(tcell)
 head(tcell$teffdata)
 ```
-The transcriptomic feature data contains the expression levels of 14, found significant in the differential expression analysis of the interaction between T cell count and sex. 
+The transcriptomic feature data contains the expression levels of 14 genes, found significant in the differential expression analysis of the interaction between T cell count and sex. 
 
 ```{r}
 dim(tcell$features)
@@ -57,7 +57,9 @@ head(tcell$features)
 
 # Analysis
 
-We then use <code>predictteff</code> to estimate the effect of sex on T cell count in a subsample of test individuals. The function randomly selects 80\% of individuals to grow the forest using the feature data, adjusted by covariates. The predictor is applied on the \20% of left-out individuals, who are used to estimate the effect of sex on each of them, given their gene expression levels across the genes. For the immune sexual dimorphism, the genes within the features belong to sex chromosomes. For those that are coupled with homologous genes between the sexual chromosomes, we estimate the average levels between homologs and use those as the features in the random forest. The matrix <code>homologous</code> couples the homologs between rows.  
+We then use <code>predictteff</code> to estimate the effect of sex on T cell count in a subsample of test individuals. The function randomly selects 80\% of individuals to grow the forest using the feature data, adjusted by covariates. The estimated effect of sex is the estimated difference of T cell count between sexes when the transcriptomic data across these 14 genes are kept constant. We refer to the estimated effect of sex of an individuals as the individual's associated sexual dimorphism. 
+
+The predictor of sexual dimorphism is applied on the \20% of left-out individuals, who are used to estimate the effect of sex on each of them, given their gene expression levels across the genes. For the immune sexual dimorphism, the genes within the features belong to sex chromosomes. For those that are coupled with homologous genes between the sexual chromosomes, we estimate the average levels between homologs and use those as the features in the random forest. The matrix <code>homologous</code> couples the homologs between rows.  
 
 ```{r}
 homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
@@ -65,22 +67,15 @@ homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RP
 pred <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
 
 pred
-
-
-x <- pred 
-rk=NULL
-lb="Associated treatment effect"
-xlab = "Subject Ranking"
-ctrl.plot = NULL
 ```
-We can plot the prediction with confidence intervals. Treated refers to females, and not treated to males. 
+We can plot the prediction of the associated sex effect with confidence intervals. Treated refers to females, and not treated to males. 
 ```{r}
 plotPredict(pred)
 ```
 
-For each individual <code>predicteff</code> predicts a sex effect with 95\% confidence intervals. Therefore, individuals that have a significantly low effect of sex are those for which their specific transcription levels would result in lower T cell count when observed in females than in males. Those with significantly positive effects of sex are those for which their transcription profiles would result in higher T cell count when observed in females than males.  
+For each individual <code>predicteff</code> predicts a sex effect with 95\% confidence intervals. Therefore, individuals that have a significantly negative effect of sex are those for which their specific transcription levels would result in lower T cell count when observed in females than in males. Those with significantly positive effects of sex are those for which their transcription profiles would result in higher T cell count when observed in females than males.  
 
-<code>predicteff</code> allows for a parameter <code>profile</code> that when it is set to <code>TRUE</code> it attempts to create a common profile of gene expression levels across all individuals with significantly low sex effect. It also created a profile for the group of individuals with significantly positive sex effects.  
+<code>predicteff</code> allows for a parameter <code>profile</code> that when it is set to <code>TRUE</code> it attempts to create a profile of gene expression levels across all individuals with significantly negative sex effect. It also creates a profile for the group of individuals with significantly positive sex effects.  
 
 ```{r}
 pred$profile
@@ -114,10 +109,10 @@ names(data4teff)
 names(data4teff$teffdata)
 ```
 
-with variables: <core>eff</core> for the effect, namely artrhitis diagnose, <core>t</core> for treatment; 1:male, 2:female, and covariates such as <core>age</core>, and surrogate variables.
+with variables: <core>eff</core> for the outcome on which the effect is measured, namely artrhitis diagnose, <core>t</core> for treatment; 1:male, 2:female, and covariates such as <core>age</core>, and surrogate variables.
 
 
-The <core>target</core> function classifies individuals into their sexually dimorphic groups and produces a plot on the targeting, based on gene expression data available. It also tests the significance of the association of the effect (arthritis disease) with the interaction between sex and the groups of sexual dimorphism. 
+The <core>target</core> function classifies individuals into their sexually dimorphic groups and produces a plot on the targeting, based on gene expression data available. It also tests the significance of the association of the outcome (arthritis disease) with the interaction between sex and the groups of sexual dimorphism. 
 
 ```{r}
 res <- target(data4teff, pred, plot=TRUE, effect="positive", featuresinf=homologous, nmcov="age.ch1", model="binomial")
@@ -125,8 +120,7 @@ res <- target(data4teff, pred, plot=TRUE, effect="positive", featuresinf=homolog
 res
 ```
 
-When the outcome is continuous a plot of the interaction can also be obtained. Here, we show the targeting of the in the <code>tcell</code> data set, where the effect is the T Cell count. Clearly, for this case, the association of the effect with the interaction between sex and the groups of sexual dimorphism is high because this data and this effect were used to infer the groups. 
-
+When the outcome is continuous a plot of the interaction can also be obtained. We now show the targeting  of the sexual dimorphism on Tcell count on the entire  <code>tcell</code> dataset. 
 
 ```{r}
 data(tcell)
@@ -136,8 +130,15 @@ res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, n
 res
 ```
 
-the highly significant interaction is illustrated in the plot
+Clearly, for this case, the association of the effect with the interaction between sex and the groups of sexual dimorphism is high because this data and this effect were used to infer the treatment effect groups. The highly significant interaction is illustrated by the interaction plot
+
 ```{r}
-plotTarget(res)
+plotTarget(res,  labs=c("Sexual dimorphism", "T cell count", "Condition", "Male", "Female"))
+```
+
+ot by the boxplot
+
+```{r}
+boxPlot(res, labs=c("Sexual dimorphism", "T cell count", "Condition", "Male", "Female"), lg="bottomleft")
 ```
 

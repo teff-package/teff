@@ -7,7 +7,7 @@
 \usage{
 boxPlot(
   x,
-  labs = c("Group classification", "Effect", "Treatment", "Not treated", "Treated"),
+  labs = c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"),
   lg = NULL
 )
 }
@@ -15,7 +15,7 @@ boxPlot(
 \item{x}{object of class \code{tarteff}}
 
 \item{labs}{string of characters for the labels of the plot, it refers in order to labels to use for:
-Group classification, Effect, Treatment, and levels of the treatment like: Treated and not Treated.}
+Treatment effect, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.}
 
 \item{lg}{position of the legend for treatment levels such as "topright"}
 }

@@ -1,18 +1,18 @@
-#' Extracts treatment, effect and feature data from transcriptomic and methylomic studies
+#' Extracts treatment, the outcome on which the effect is assessed, and feature data from transcriptomic and methylomic studies
 #'
 #'
 #' @details This function extracts feature and treatment-effects data,
 #' from  \code{eSet} or \code{SummarizedExperiment} objects
 #' for profiling with \link[teff]{profile}. The function includes the option of adding
-#' surragate variables as additioal covariates to the treatment-effect data.
+#' surrogate variables as additional covariates to the treatment-effect data.
 #' @export
 #' @param set \code{GenomicRatioSet}, \code{eSet} derived object or
 #' \code{SummarizedExperiment}
 #' @param tname \code{character} with name of treatment variable
-#' @param effname \code{character} with name of effect variable (time to event in the case of survival)
-#' @param reft \code{character} vector with indicates no-treatment level and treatment level (Default: NULL)
-#' @param refeff \code{character} vector indicates no-effect level and effect level when the effect is categorical (Default: NULL)
-#' @param event \code{character} with name of event variable in the case of a survival effect (Default: NULL)
+#' @param effname \code{character} with name of outcome variable on which the effect is measured (time to event in the case of survival)
+#' @param reft \code{character} vector that indicates no-treatment and treatment levels (Default: NULL)
+#' @param refeff \code{character} vector that indicates no-outcome and outcome levels when the outcome on which the effect is measured is categorical (Default: NULL)
+#' @param event \code{character} with name of event variable in the case of a survival outcome (Default: NULL)
 #' @param covnames \code{character} vector with names of covariates (Default: NULL)
 #' @param covtype \code{character} vector with character "n" indicates which covariates are numerical e.g. c("n", "n", "c") (Default: NULL)
 #' @param sva \code{logical} indicates whether surrogate variable should be added as covariates (Default: NULL)

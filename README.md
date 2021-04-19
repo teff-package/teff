@@ -1,13 +1,12 @@
 # teff (treatment effects prediction)
 
-This is an R Package for predicting which individuals would response best to treatment given their values in several feature data.
+This is an R Package for predicting which individuals would respond best to a treatment on an outcome, given their values in several feature data.
 
 ## What it does
 
-<code>teff</code> is a software package to predict the effect of treating a single individual given the individual's profile in some feature data. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package <core>grf</code> by Tibshirani et al.
+<code>teff</code> is a software package to predict the effect of treating a **single** individual given the individual's profile in some feature data. The effect of treatment is the estimated difference of an outcome between treating and and not treating when the feature data are kept constant. The package focuses on transcriptomic features for which surrogate covariates need to be estimated. The estimation of treatment effects is based on inferences using random causal forest as implemented in the package [grf](https://github.com/grf-labs/grf) by Tibshirani et al.
 
-With the extracted profiles, new individuals according to their feature data can be targeted and classified into groups where the treatment is significantly positive or negative on the effect. If treatment and effect data is available for these new individuals the package can test
-whether the association between the treatment and the effect is indeed different across groups of associated positive and negative treatment effects. 
+Feature profiles associated to positive and negative effects of treatment can then be extracted, based on the feature data of individuals with significant treatment effects. If such profiles can be identified then new individuals can be targeted and classified into groups of positive, negative or neutral treatment effects. When the outcome and treatment data are also available for these new individuals, the package can test whether the association between the treatment and outcome is indeed different across groups of associated positive and negative treatment effects. 
 
 Applications include:
 
@@ -23,7 +22,7 @@ When possible, single consensus profiles of individuals with positive, and negat
 
 ## Additional functions
 
-The package include functions to extract feature and treatment data from transcriptomic and methylomic studies. 
+The package includes functions to extract feature and treatment data from transcriptomic and methylomic studies. 
 
 ## Install
 

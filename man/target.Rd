@@ -2,7 +2,7 @@
 % Please edit documentation in R/target.R
 \name{target}
 \alias{target}
-\title{Targets individuals into groups of positive, negative or neutral treatment effects}
+\title{Targets individuals into groups of positive, negative or neutral effect of treatment on an outcome.}
 \usage{
 target(
   x,
@@ -20,7 +20,7 @@ target(
 }
 \arguments{
 \item{x}{a \code{list} with a fields \code{teffdata} and \code{features}.
-\code{teffdata} the data for treatment, effect and covariates across
+\code{teffdata} the data for treatment, outcome on which the effect is measured and covariates across
 subjects. \code{features} data is the data on which the profiling
 is done. Adjusted features for the variables on the \code{teffdata} are
 used to fit the forest and extract the profiles of individuals with
@@ -29,8 +29,8 @@ significant  treatments.}
 \item{pteffObject}{object of class \code{pteff}}
 
 \item{effect}{\code{character} with one of the values: "positive", "negative", "positiveandnegative", indicating
-which subpopulation to be targeted: subpopulation with positive treatment effect only, negative
-treatment effect only or both, respectively (Default: positive).}
+which subpopulations to be targeted: subpopulation with positive treatment effects only, negative
+treatment effects only or both, respectively (Default: positive).}
 
 \item{featuresinf}{a \code{vector} of characters with the names of the
 features to be used; a \code{matrix} of characters whose columns are
@@ -41,12 +41,12 @@ names of features whose values will be averaged (Default:NULL).}
 \item{lb}{\code{character} indicating labels for features plot.}
 
 \item{model}{\code{character} with one of the values corresponding to the family argument of a
-general linear model (\link[stats]{glm}), such as: "gaussian", "binomial", etc. It also allows "beta" for beta
+general linear model for the outcome (\link[stats]{glm}), such as: "gaussian", "binomial", etc. It also allows "beta" for beta
 regression, "hazard" for proportional hazards model \link[survival]{coxph}, and "log2" for log2
 transformation of the effects (Default: "gaussian").}
 
 \item{match}{\code{numeric} value between 0 and 1 indicating the level of the match for the targeing
-across all the binarized features in the profile. A value of 1 means that all the binarized
+across all the binarized features in the profile (positive or negative). A value of 1 means that all the binarized
 features must take identical values in the profile (i,e "positive") for an individual to be clsssified
 in its subpopulation (of positive treatment effects).}
 
@@ -62,29 +62,32 @@ a \code{list} of class \code{tarteff} with fields:
 \describe{
 \item{classification:}{classification of individuals into subpopulations of
 expected positive and/or negative treatment effects}
-\item{summary.model:}{a \code{summary} of the model used to test the interaction between
+\item{summary.model:}{a \code{summary} of the model used to test the association of the outcome with the
+interaction of between
 the profile ("positiveandnegative": positive=1, neutral=0, negative=-1; "positive": positive=1, neutral=0,
 "negative": negative=1, neutral=0) with the effect.}
 }
 }
 \description{
-Targets individuals into groups of positive, negative or neutral treatment effects
+Targets individuals into groups of positive, negative or neutral effect of treatment on an outcome.
 }
 \details{
 This function uses feature data of individuals to classify them
-into subpopulations associated with positive and negative treatment effects. The
+into subpopulations associated with the positive and negative effect of treating them
+according to a given outcome. The
 classification is performed by targeting the feature data (adjusted by
 covariates and binarized) to the profiles computed in \link[teff]{profile}.
 
-The function tests whether the classification of the subjects stratifies
-the association of the treatment with the effect, testing the
-interaction between subpopulation classification and the treatment.
+The function tests whether the classification of the subjects into groups of positive
+and negative treatment effects modulates
+the association of the treatment with the outcome, fitting a model for the outcome as function of
+the interaction between the classification and the treatment.
 
-Models on the effects to test the interaction include the general lineal
+Models on the outcome to test the interaction include general lineal
 models, beta regression and proportional hazards models.
 
 The function can be used to target new individuals not used in the profiling
-and/or other types of effects expected from the treatment.
+and/or on the effects of other types of outcomes also expected from the treatment.
 }
 \examples{
 data(tcell)

@@ -2,20 +2,20 @@
 % Please edit documentation in R/classes.R
 \name{plotTarget}
 \alias{plotTarget}
-\title{Plots inferred treatment effects of individuals from
+\title{Plots estimated treatment effects of individuals from
 \link[teff]{target}}
 \usage{
 plotTarget(
   x,
   ...,
-  labs = c("Group classification", "Effect", "Treatment", "Not treated", "Treated")
+  labs = c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated")
 )
 }
 \arguments{
 \item{x}{object of class \code{tarteff}}
 
 \item{labs}{string of characters for the labels of the plot, it refers in order to labels to use for:
-Group classification, Effect, Treatment, and levels of the treatment like: Treated and not Treated.}
+Treatment effect group, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.}
 }
 \value{
 A plot on the current graphics device
@@ -26,6 +26,6 @@ res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, n
 plotTarget(res)
 }
 \description{
-Plots inferred treatment effects of individuals from
+Plots estimated treatment effects of individuals from
 \link[teff]{target}
 }

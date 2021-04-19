@@ -1,42 +1,44 @@
-#' Targets individuals into groups of positive, negative or neutral treatment effects
+#' Targets individuals into groups of positive, negative or neutral effect of treatment on an outcome.
 #'
 #' @details This function uses feature data of individuals to classify them
-#' into subpopulations associated with positive and negative treatment effects. The
+#' into subpopulations associated with the positive and negative effect of treating them
+#' according to a given outcome. The
 #' classification is performed by targeting the feature data (adjusted by
 #' covariates and binarized) to the profiles computed in \link[teff]{profile}.
 #'
-#' The function tests whether the classification of the subjects stratifies
-#' the association of the treatment with the effect, testing the
-#' interaction between subpopulation classification and the treatment.
+#' The function tests whether the classification of the subjects into groups of positive
+#' and negative treatment effects modulates
+#' the association of the treatment with the outcome, fitting a model for the outcome as function of
+#' the interaction between the classification and the treatment.
 #'
-#' Models on the effects to test the interaction include the general lineal
+#' Models on the outcome to test the interaction include general lineal
 #' models, beta regression and proportional hazards models.
 #'
 #' The function can be used to target new individuals not used in the profiling
-#' and/or other types of effects expected from the treatment.
+#' and/or on the effects of other types of outcomes also expected from the treatment.
 #'
 #' @export
 #' @param  x a \code{list} with a fields \code{teffdata} and \code{features}.
-#' \code{teffdata} the data for treatment, effect and covariates across
+#' \code{teffdata} the data for treatment, outcome on which the effect is measured and covariates across
 #' subjects. \code{features} data is the data on which the profiling
 #' is done. Adjusted features for the variables on the \code{teffdata} are
 #' used to fit the forest and extract the profiles of individuals with
 #' significant  treatments.
 #' @param pteffObject object of class \code{pteff}
 #' @param effect \code{character} with one of the values: "positive", "negative", "positiveandnegative", indicating
-#' which subpopulation to be targeted: subpopulation with positive treatment effect only, negative
-#' treatment effect only or both, respectively (Default: positive).
+#' which subpopulations to be targeted: subpopulation with positive treatment effects only, negative
+#' treatment effects only or both, respectively (Default: positive).
 #' @param featuresinf a \code{vector} of characters with the names of the
 #' features to be used; a \code{matrix} of characters whose columns are
 #' names of features whose values will be averaged (Default:NULL).
 #' @param plot \code{logical} indicating a whether a plot of the targeting will be produced
 #' @param lb \code{character} indicating labels for features plot.
 #' @param model \code{character} with one of the values corresponding to the family argument of a
-#' general linear model (\link[stats]{glm}), such as: "gaussian", "binomial", etc. It also allows "beta" for beta
+#' general linear model for the outcome (\link[stats]{glm}), such as: "gaussian", "binomial", etc. It also allows "beta" for beta
 #' regression, "hazard" for proportional hazards model \link[survival]{coxph}, and "log2" for log2
 #' transformation of the effects (Default: "gaussian").
 #' @param match \code{numeric} value between 0 and 1 indicating the level of the match for the targeing
-#' across all the binarized features in the profile. A value of 1 means that all the binarized
+#' across all the binarized features in the profile (positive or negative). A value of 1 means that all the binarized
 #' features must take identical values in the profile (i,e "positive") for an individual to be clsssified
 #' in its subpopulation (of positive treatment effects).
 #' @param nmcov vector of \code{character} with the names of the covariates to be included in the models.
@@ -47,7 +49,8 @@
 #' \describe{
 #' \item{classification:}{classification of individuals into subpopulations of
 #' expected positive and/or negative treatment effects}
-#' \item{summary.model:}{a \code{summary} of the model used to test the interaction between
+#' \item{summary.model:}{a \code{summary} of the model used to test the association of the outcome with the
+#' interaction of between
 #' the profile ("positiveandnegative": positive=1, neutral=0, negative=-1; "positive": positive=1, neutral=0,
 #' "negative": negative=1, neutral=0) with the effect.}
 #' }
@@ -176,7 +179,7 @@ target <- function(x,
     if(effect=="positive"){
       im1 <- rbind(profcomp[pf1,], profcomp[!pf1,])
 
-      raster::plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c("red3", "green3"), legend = FALSE)
+      raster::plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c( "green4", "red4"), legend = FALSE)
 
       whchprof <- sum(!pf1)/length(pf1)
       lines(c(0,1), c(whchprof,whchprof), col="black", lwd=2)
@@ -190,7 +193,7 @@ target <- function(x,
     if(effect=="negative"){
       im1 <- rbind(profcomp[pf2,], profcomp[!pf2,])
 
-      plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c("red3", "green3"), legend = FALSE)
+      plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c("red4", "green4"), legend = FALSE)
 
       whchprof <- sum(!pf2)/length(pf2)
       lines(c(0,1), c(whchprof,whchprof), col="black", lwd=2)
@@ -205,7 +208,7 @@ target <- function(x,
     if(effect=="positiveandnegative"){
       im1 <- rbind(profcomp[pf3==-1,],profcomp[pf3==0,],profcomp[pf3==1,] )
 
-      plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c("red3", "green3"), legend = FALSE)
+      plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c("red4", "green4"), legend = FALSE)
 
       pff <- pf3==-1
       whchprof1 <- sum(!pff)/length(pff)

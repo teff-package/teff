@@ -1,10 +1,13 @@
-#' Predicts treatmet effects of individuals in a randon subsample
+#' Predicts treatment effects on an outcome for individuals  randomly sampled from the entire dataset (default 20%).
 #'
 #' @details This function sets up feature and treatment-effects data, fits
 #' random causal forest and identify the individuals with significant
-#' treatment effects. Individuals with significant treatment effects
+#' treatment effects. Each individual is characterized by a set of feature data and the
+#' the effect of treatment on the individual is given by the estimated difference of an
+#' outcome between treating and and not treating when the feature data are kept constant.
+#' Individuals with significant treatment effects
 #' are considered for those whose confidence intervals for the treatment
-#' estimate do not overlap 0. Single consensus profiles of individuals with
+#' estimate do not overlap 0. Consensus profiles of individuals with
 #' positive, and negative, treatment effects are obtained from majority votes of
 #' adjusted features, binarized over the population means.
 #'
@@ -17,7 +20,7 @@
 #' @export
 #' @param x a \code{list} with a fields \code{teffdata} and \code{features}.
 #' \code{teffdata} is a \code{data.frame} (or \code{matrix}) with the treatment
-#' \code{$t} and effect \code{$eff} variables, and covariates across
+#' \code{$t} and the outcome \code{$eff} variables, and covariates across
 #' subjects. \code{features} is a \code{matrix} which the profiling
 #' is of subjects if performed. The features are adjusted for the covariates
 #' on the \code{teffdata} before fitting the causal random forest forest.
@@ -150,7 +153,7 @@ predicteff <- function(x,
   if(plot.overlap){
     if(ncol(X)>20) stop("plot.overlap not allowed for number of features > 20")
 
-    print("... plots of t:eff interactions across tretments in interactions.pdf \n")
+    print("... plots of t:eff interactions on the outcome in interactions.pdf \n")
 
     pdf("./interactions.pdf")
       cc <- W.train
@@ -159,7 +162,7 @@ predicteff <- function(x,
 
       for(ii in 1:ncol(X.train)){
 
-        plot(X.train[,ii], log2(Y.train+1), col=cc, main=colnames(X.train)[ii],pch=20, xlab="Mean expression residual", ylab="log2 cell abundancy")
+        plot(X.train[,ii], log2(Y.train+1), col=cc, main=colnames(X.train)[ii],pch=20, xlab="Mean expression residual", ylab="Outcome")
         abline(lm(log2(Y.train+1)[W.train] ~ X.train[W.train,ii]),lwd=1.5, lty=2, col="red")
         abline(lm(log2(Y.train+1)[!W.train] ~ X.train[!W.train,ii]),lwd=1.5, lty=2)
         legend("topleft",legend=c("Not treated", "Treated"), col=c("black", "red"), pch=20, cex=0.7)

@@ -3,7 +3,7 @@
 #'
 #' @export
 #' @param x object of class \code{pteff}
-#' @param rk object of class \code{vector}, if null treatments are
+#' @param rk object of class \code{vector}, if null, treatment effect are
 #' plotted against their ranking, if not then they ara plotted against rk values.
 #' @param lb label of the y axis for treatment effect.
 #' @param xlab label of the x axis.
@@ -77,21 +77,22 @@ print.pteff <- function(x){
   print(p1)
 }
 
-#' Plots inferred treatment effects of individuals from
+#' Plots estimated treatment effects of individuals from
 #' \link[teff]{target}
 #'
 #' @export
 #' @param x object of class \code{tarteff}
 #' @param labs string of characters for the labels of the plot, it refers in order to labels to use for:
-#'  Group classification, Effect, Treatment, and levels of the treatment like: Treated and not Treated.
+#'  Treatment effect group, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.
 #' @return A plot on the current graphics device
+#' @examples
 #' data(tcell)
 #' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 #' pf <- predicteff(tcell, featuresinf=homologous)
 #' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 #' plotTarget(res)
 
-plotTarget <- function(x, ..., labs=c("Group classification", "Effect", "Treatment", "Not treated", "Treated")){
+plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated")){
 
   if(length(x$model)==0){
     stop("not available plot: no iteraction model was fitted")
@@ -115,12 +116,12 @@ plotTarget <- function(x, ..., labs=c("Group classification", "Effect", "Treatme
 #' Box plots for inferred treatment effects of individuals from
 #' \link[teff]{target}
 #'
+#' @export
 #' @param x object of class \code{tarteff}
 #' @param labs string of characters for the labels of the plot, it refers in order to labels to use for:
-#'  Group classification, Effect, Treatment, and levels of the treatment like: Treated and not Treated.
+#' Treatment effect, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.
 #' @param lg position of the legend for treatment levels such as "topright"
 #' @return A plot on the current graphics device#'
-#' @export
 #' @examples
 #' data(tcell)
 #' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
@@ -128,12 +129,22 @@ plotTarget <- function(x, ..., labs=c("Group classification", "Effect", "Treatme
 #' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 #' boxplot(res, lg="topright")
 
-boxPlot <- function(x, labs=c("Group classification", "Effect", "Treatment", "Not treated", "Treated"), lg=NULL){
+boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), lg=NULL){
 
     if(length(x$model)==0){
       stop("not available plot: no iteraction model was fitted")
       return(NULL)
     }
+
+    t <- factor(x$teffdata[,"t"], labels = labs[4:5])
+
+    dd <- data.frame(eff=x$teffdata[,"eff"], t=t, pf=x$classification)
+    dd <- dd[complete.cases(dd),]
+
+    names(dd)[1] <- labs[2]
+    names(dd)[2] <- labs[3]
+    names(dd)[3] <- labs[1]
+
 
     fc <- factor(paste(dd[,2], as.factor(dd[,3]),  sep="-"))
     boxplot(dd[,1] ~ fc, col=rep(c("orange", "blue"), each=length(levels(factor(dd[,3])))), ylab=labs[2], xlab=labs[1], xaxt="n", yaxt="n", main="", cex.lab=1.4, cex.axis=1.3, cex.main=1.4)

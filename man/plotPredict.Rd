@@ -17,7 +17,7 @@ plotPredict(
 \arguments{
 \item{x}{object of class \code{pteff}}
 
-\item{rk}{object of class \code{vector}, if null treatments are
+\item{rk}{object of class \code{vector}, if null, treatment effect are
 plotted against their ranking, if not then they ara plotted against rk values.}
 
 \item{lb}{label of the y axis for treatment effect.}

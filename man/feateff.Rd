@@ -2,7 +2,7 @@
 % Please edit documentation in R/feateff.R
 \name{feateff}
 \alias{feateff}
-\title{Extracts treatment, effect and feature data from transcriptomic and methylomic studies}
+\title{Extracts treatment, the outcome on which the effect is assessed, and feature data from transcriptomic and methylomic studies}
 \usage{
 feateff(
   set,
@@ -24,13 +24,13 @@ feateff(
 
 \item{tname}{\code{character} with name of treatment variable}
 
-\item{effname}{\code{character} with name of effect variable (time to event in the case of survival)}
+\item{effname}{\code{character} with name of outcome variable on which the effect is measured (time to event in the case of survival)}
 
-\item{reft}{\code{character} vector with indicates no-treatment level and treatment level (Default: NULL)}
+\item{reft}{\code{character} vector that indicates no-treatment and treatment levels (Default: NULL)}
 
-\item{refeff}{\code{character} vector indicates no-effect level and effect level when the effect is categorical (Default: NULL)}
+\item{refeff}{\code{character} vector that indicates no-outcome and outcome levels when the outcome on which the effect is measured is categorical (Default: NULL)}
 
-\item{event}{\code{character} with name of event variable in the case of a survival effect (Default: NULL)}
+\item{event}{\code{character} with name of event variable in the case of a survival outcome (Default: NULL)}
 
 \item{covnames}{\code{character} vector with names of covariates (Default: NULL)}
 
@@ -44,13 +44,13 @@ used if \code{set} is a \code{GenomicRatioSet} (Default: TRUE)}
 \item{UsegeneSymbol}{\code{logical} indicates whether genenames should be used as feature names (Default: FALSE)}
 }
 \description{
-Extracts treatment, effect and feature data from transcriptomic and methylomic studies
+Extracts treatment, the outcome on which the effect is assessed, and feature data from transcriptomic and methylomic studies
 }
 \details{
 This function extracts feature and treatment-effects data,
 from  \code{eSet} or \code{SummarizedExperiment} objects
 for profiling with \link[teff]{profile}. The function includes the option of adding
-surragate variables as additioal covariates to the treatment-effect data.
+surrogate variables as additional covariates to the treatment-effect data.
 }
 \examples{
 
