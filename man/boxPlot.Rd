@@ -8,7 +8,8 @@
 boxPlot(
   x,
   labs = c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"),
-  lg = NULL
+  lg = NULL,
+  labeff = NULL
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ boxPlot(
 Treatment effect, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.}
 
 \item{lg}{position of the legend for treatment levels such as "topright"}
+
+\item{labeff}{string of characters for the labels of the treatment effect default NULL, 0: neutral and 1: positive or negative; or 0: neutral, -1: negative and 1: positive.}
 }
 \value{
 A plot on the current graphics device#'

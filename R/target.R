@@ -187,7 +187,8 @@ target <- function(x,
       if(is.null(lb))
         lb <- colnames(Xscale)
 
-      axis(1, at = seq(0,1,length=ncol(im1)), labels = lb[1:ncol(Xscale)], cex.axis = 0.7, las = 2)
+      ll <- ncol(im1)
+      axis(1, at = seq(1/ll/2,1-1/ll/2,length=ll), labels = lb[1:ncol(Xscale)], cex.axis = 0.7, las = 2)
       axis(2, at =  c((1+whchprof)/2, (whchprof)/2)  , labels = c("Positive", "Neutral"), pos=0)    }
 
     if(effect=="negative"){
@@ -201,7 +202,8 @@ target <- function(x,
       if(is.null(lb))
         lb <- colnames(Xscale)
 
-      axis(1, at = seq(0,1,length=ncol(im1)), labels = lb[1:ncol(Xscale)], cex.axis = 0.7, las = 2)
+      ll <- ncol(im1)
+      axis(1, at = seq(1/ll/2,1-1/ll/2,length=ll), labels = lb[1:ncol(Xscale)], cex.axis = 0.7, las = 2)
       axis(2, at =  c((1+whchprof)/2, (whchprof)/2)  , labels = c("Negative", "Neutral"), pos=0)
     }
 
@@ -222,7 +224,8 @@ target <- function(x,
       if(is.null(lb))
        lb <- colnames(Xscale)
 
-      axis(1, at = seq(0,1,length=ncol(im1)) , labels = lb[1:ncol(Xscale)], cex.axis=0.6, las=2)
+      ll <- ncol(im1)
+      axis(1, at = seq(1/ll/2,1-1/ll/2,length=ll) , labels = lb[1:ncol(Xscale)], cex.axis=0.6, las=2)
       axis(2, at = c((whchprof1+1)/2,whchprof2/2), labels = c("Positive", "Negative"), pos=0)
     }
 

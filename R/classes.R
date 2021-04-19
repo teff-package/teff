@@ -84,6 +84,7 @@ print.pteff <- function(x){
 #' @param x object of class \code{tarteff}
 #' @param labs string of characters for the labels of the plot, it refers in order to labels to use for:
 #'  Treatment effect group, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.
+#' @param labeff string of characters for the labels of the treatment effect default NULL, 0: neutral and 1: positive or negative; or 0: neutral, -1: negative and 1: positive.
 #' @return A plot on the current graphics device
 #' @examples
 #' data(tcell)
@@ -92,7 +93,7 @@ print.pteff <- function(x){
 #' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 #' plotTarget(res)
 
-plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated")){
+plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), labeff=NULL){
 
   if(length(x$model)==0){
     stop("not available plot: no iteraction model was fitted")
@@ -108,6 +109,9 @@ plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment"
   names(dd)[2] <- labs[3]
   names(dd)[3] <- labs[1]
 
+  if(!is.null(labeff))
+    dd[[3]] <- factor(dd[[3]], labels = labeff)
+
   ggpubr::ggline(dd, x = labs[1], y = labs[2],
            add = "mean_ci", color = labs[3], palette = c("orange", "blue"),
            xlab=labs[1], main="", ylab=labs[2])
@@ -121,6 +125,7 @@ plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment"
 #' @param labs string of characters for the labels of the plot, it refers in order to labels to use for:
 #' Treatment effect, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.
 #' @param lg position of the legend for treatment levels such as "topright"
+#' @param labeff string of characters for the labels of the treatment effect default NULL, 0: neutral and 1: positive or negative; or 0: neutral, -1: negative and 1: positive.
 #' @return A plot on the current graphics device#'
 #' @examples
 #' data(tcell)
@@ -129,7 +134,7 @@ plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment"
 #' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 #' boxplot(res, lg="topright")
 
-boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), lg=NULL){
+boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), lg=NULL, labeff=NULL){
 
     if(length(x$model)==0){
       stop("not available plot: no iteraction model was fitted")
@@ -145,11 +150,13 @@ boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not t
     names(dd)[2] <- labs[3]
     names(dd)[3] <- labs[1]
 
+    if(!is.null(labeff))
+      dd[[3]] <- factor(dd[[3]], labels = labeff)
 
     fc <- factor(paste(dd[,2], as.factor(dd[,3]),  sep="-"))
     boxplot(dd[,1] ~ fc, col=rep(c("orange", "blue"), each=length(levels(factor(dd[,3])))), ylab=labs[2], xlab=labs[1], xaxt="n", yaxt="n", main="", cex.lab=1.4, cex.axis=1.3, cex.main=1.4)
 
-    axis(1,at=1:6,labels=rep(levels(factor(dd[,3])), 2), cex.axis=1.2, cex.lab=1.4)
+    axis(1,at=1:(2*(length(levels(factor(dd[,3]))))),labels=rep(levels(factor(dd[,3])), 2), cex.axis=1.2, cex.lab=1.4)
     axis(2,cex.axis=1.4)
 
     if(length(lg)!=0)

@@ -139,6 +139,8 @@ plotTarget(res,  labs=c("Sexual dimorphism", "T cell count", "Condition", "Male"
 ot by the boxplot
 
 ```{r}
-boxPlot(res, labs=c("Sexual dimorphism", "T cell count", "Condition", "Male", "Female"), lg="bottomleft")
+boxPlot(res, 
+        labs=c("Sexual dimorphism", "T cell count", "Condition", "Male", "Female"), 
+        lg="bottomleft")
 ```
 

@@ -8,7 +8,8 @@
 plotTarget(
   x,
   ...,
-  labs = c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated")
+  labs = c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"),
+  labeff = NULL
 )
 }
 \arguments{
@@ -16,16 +17,20 @@ plotTarget(
 
 \item{labs}{string of characters for the labels of the plot, it refers in order to labels to use for:
 Treatment effect group, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.}
+
+\item{labeff}{string of characters for the labels of the treatment effect default NULL, 0: neutral and 1: positive or negative; or 0: neutral, -1: negative and 1: positive.}
 }
 \value{
 A plot on the current graphics device
+}
+\description{
+Plots estimated treatment effects of individuals from
+\link[teff]{target}
+}
+\examples{
 data(tcell)
 homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 pf <- predicteff(tcell, featuresinf=homologous)
 res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
 plotTarget(res)
-}
-\description{
-Plots estimated treatment effects of individuals from
-\link[teff]{target}
 }
