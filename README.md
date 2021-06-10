@@ -10,9 +10,9 @@ Feature profiles associated to positive and negative effects of treatment can th
 
 Applications include:
 
-- Predicting treatment effect of brodalumab treatment of psoriasis from gene expression data at baseline. 
+- Forcasting treatment effect of brodalumab treatment of psoriasis from gene expression data at baseline. See [application](https://alejandro-isglobal.github.io/teff/teff.html)
 
-- Extracting gene expression profiles for which men and women have high differences on immune cell count in blood. In this application sex is considered as a treatment. 
+- Extracting gene expression profiles for which men and women have high differences on immune cell count in blood. In this application sex is considered as a treatment. See [application](https://alejandro-isglobal.github.io/teff/dimorphisms.html) .
 
 ## How it does it
 
