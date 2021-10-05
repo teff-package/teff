@@ -42,6 +42,7 @@
 #' feature data for the individuals with significantly positive and negative treatment effects, respectively.
 #' @param dup a logical that indicates whether the feature and teff data should
 #' be duplicated in case of small datasets.
+#' @param resplevel a number indicating the level of response for asseing positive ore negative treatment effects (default 0).
 #' @return  a \code{list} of class \code{pteff} with fields:
 #' \describe{
 #' \item{predictions:}{a \code{vector} with the estimated treatment effect
@@ -71,7 +72,8 @@ predicteff <- function(x,
                     plot.overlap=FALSE,
                     quant=Inf,
                     dup=FALSE,
-                    profile=FALSE){
+                    profile=FALSE,
+                    resplevel=0){
 
   ##Data set up
   ########################
@@ -230,8 +232,8 @@ predicteff <- function(x,
   #add profiling to output
   if (profile){
 
-    sighetpositive <- (cl>0) + 1
-    sighetnegative <-  (cu<0) + 1
+    sighetpositive <- (cl > resplevel) + 1
+    sighetnegative <-  (cu < resplevel) + 1
 
 
     #get profile for top featurenames define by quant
@@ -270,7 +272,7 @@ predicteff <- function(x,
 
     ##########
     #gather output
-    res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1, profile=list(profpositive=profpositive,profnegative=profnegative))
+    res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1, profile=list(profpositive=profpositive,profnegative=profnegative), resplevel=resplevel)
   }
 
 

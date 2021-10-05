@@ -22,8 +22,8 @@ plotPredict <- function(x, ..., rk=NULL, lb="Associated treatment effect", xlab 
 
   yrange <- c(x$cl, x$cu)
 
-  colsigpositive <-  (x$cl>0)
-  colsignegative <- (x$cu<0)
+  colsigpositive <-  (x$cl>x$resplevel)
+  colsignegative <- (x$cu<x$resplevel)
 
   colsighet <- colsigpositive+1
   colsighet[colsigpositive==1] <- 3
@@ -51,7 +51,7 @@ plotPredict <- function(x, ..., rk=NULL, lb="Associated treatment effect", xlab 
 
   graphics::points(ranktau, x$predictions, pch = 16,col = coltreatment)
 
-  graphics::lines(c(-10,500), c(0,0), lwd=1.5, lty=2, col="red")
+  graphics::lines(c(-10,500), c(x$resplevel,x$resplevel), lwd=1.5, lty=2, col="red")
 
   if(is.null(ctrl.plot)){
     ctrl.plot <- list(lb=c("Not treated", "Treated"),
@@ -141,7 +141,7 @@ boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not t
       return(NULL)
     }
 
-    t <- factor(x$teffdata[,"t"], labels = labs[4:5])
+    t <- factor(x$teffdata[,"t"])
 
     dd <- data.frame(eff=x$teffdata[,"eff"], t=t, pf=x$classification)
     dd <- dd[complete.cases(dd),]

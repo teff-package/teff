@@ -130,13 +130,13 @@ res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, n
 res
 ```
 
-Clearly, for this case, the association of the effect with the interaction between sex and the groups of sexual dimorphism is high because this data and this effect were used to infer the treatment effect groups. The highly significant interaction is illustrated by the interaction plot
+Clearly, for this case, the association of the effect with the interaction between sex and the groups of sexual dimorphism is high because this data and this effect were used to infer the treatment effect groups. The highly significant interaction is illustrated by the interaction plot of mean estimates
 
 ```{r}
 plotTarget(res,  labs=c("Sexual dimorphism", "T cell count", "Condition", "Male", "Female"))
 ```
 
-ot by the boxplot
+or by the boxplot of T cell count quartiles
 
 ```{r}
 boxPlot(res, 

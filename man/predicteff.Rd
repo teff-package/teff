@@ -12,7 +12,8 @@ predicteff(
   plot.overlap = FALSE,
   quant = Inf,
   dup = FALSE,
-  profile = FALSE
+  profile = FALSE,
+  resplevel = 0
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ be duplicated in case of small datasets.}
 
 \item{profile}{a logical. If \code{TRUE} then it estimates a profile of binarized
 feature data for the individuals with significantly positive and negative treatment effects, respectively.}
+
+\item{resplevel}{a number indicating the level of response for asseing positive ore negative treatment effects (default 0).}
 }
 \value{
 a \code{list} of class \code{pteff} with fields:
