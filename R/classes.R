@@ -200,7 +200,7 @@ print.tarteff <- function(x){
 #'
 #' @param x vector
 #' @param ci confidence limit
-#' @param character
+#' @param character error
 #' @return vector
 #' @export
 

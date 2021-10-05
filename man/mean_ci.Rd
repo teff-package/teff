@@ -11,6 +11,8 @@ mean_ci(x, ci = 0.95, error.limit = "both")
 \item{x}{vector}
 
 \item{ci}{confidence limit}
+
+\item{character}{error}
 }
 \value{
 vector
