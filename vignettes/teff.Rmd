@@ -53,19 +53,21 @@ dim(psoriasis$features)
 head(psoriasis$features[,1:10])
 ```
 
-We then use <code>predictteff</code> to estimate the effect of treatment on PASI improvement on a subsample of test individuals. The function randomly selects 80\% of individuals to grow the forest using the feature data, adjusted by covariates. The predictor is applied on the \20% of left-out individuals, who are used to estimate the effect of treatment on each of them, given their gene expression levels across all the genes. 
+We then use <code>predictteff</code> to estimate the effect of treatment on PASI improvement on a subsample of test individuals. The function randomly selects 80\% of individuals to grow the forest using the feature data, adjusted by covariates. The predictor is applied on the \20% of left-out individuals, who are used to estimate the effect of treatment on each of them, given their gene expression levels across all the genes. We have implemented the <code>dup</code> option for handling data sets with few individuals. The parameter <code>resplevel</code> sets the null hypothesis for testing the significance of $\tau(p)$
 
 
 ```{r}
-pso <- predicteff(psoriasis, dup=TRUE)
+pso <- predicteff(psoriasis, dup=TRUE, resplevel = 0.2)
 
 pso
 ```
 
-We can plot the prediction of treatment effect with confidence intervals. We have implemented the <code>dup</code> option for handling data sets with few individuals. 
+We can plot the prediction of treatment effect with confidence intervals.  
 
 ```{r}
-plotPredict(pso)
+plotPredict(pso, lb=expression(tau(p)),
+            ctrl.plot = list(lb=c("Placebo", "Brodalumab"),
+                             wht="topleft", whs = "bottomright"))
 ```
 
 

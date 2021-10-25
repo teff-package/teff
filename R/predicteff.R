@@ -42,7 +42,7 @@
 #' feature data for the individuals with significantly positive and negative treatment effects, respectively.
 #' @param dup a logical that indicates whether the feature and teff data should
 #' be duplicated in case of small datasets.
-#' @param resplevel a number indicating the level of response for asseing positive ore negative treatment effects (default 0).
+#' @param resplevel a number indicating the level of response for assessing positive ore negative treatment effects (default 0).
 #' @return  a \code{list} of class \code{pteff} with fields:
 #' \describe{
 #' \item{predictions:}{a \code{vector} with the estimated treatment effect
@@ -223,11 +223,20 @@ predicteff <- function(x,
   cl <- tau.hat$predictions - 1.96*sigma.hat
   cu <- tau.hat$predictions + 1.96*sigma.hat
   #output
-  res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1)
+  res <- list(predictions=tau.hat$predictions,
+              featurenames=featureimp,
+              cl=cl, cu=cu, subsids=subsids[sm],
+              treatment = W.test*1,
+              resplevel=resplevel)
 
   if(dup==TRUE){
     selnotdup <- duplicated(subsids[sm])
-    res <- list(predictions=tau.hat$predictions[selnotdup], featurenames=featureimp,  cl=cl[selnotdup], cu=cu[selnotdup], subsids=subsids[sm][selnotdup], treatment = (W.test*1)[selnotdup])
+    res <- list(predictions=tau.hat$predictions[selnotdup],
+                featurenames=featureimp,
+                cl=cl[selnotdup], cu=cu[selnotdup],
+                subsids=subsids[sm][selnotdup],
+                treatment = (W.test*1)[selnotdup],
+                resplevel=resplevel)
   }
   #add profiling to output
   if (profile){
@@ -272,7 +281,11 @@ predicteff <- function(x,
 
     ##########
     #gather output
-    res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1, profile=list(profpositive=profpositive,profnegative=profnegative), resplevel=resplevel)
+#    res <- list(predictions=tau.hat$predictions, featurenames=featureimp,  cl=cl, cu=cu, subsids=subsids[sm], treatment = W.test*1, profile=list(profpositive=profpositive,profnegative=profnegative), resplevel=resplevel)
+
+    res$profile <-  list(profpositive=profpositive,profnegative=profnegative)
+    res$resplevel <-  resplevel
+
   }
 
 
