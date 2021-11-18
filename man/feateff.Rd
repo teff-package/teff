@@ -15,7 +15,8 @@ feateff(
   covtype = NULL,
   sva = FALSE,
   betas = TRUE,
-  UsegeneSymbol = FALSE
+  UsegeneSymbol = FALSE,
+  rnaseq = FALSE
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ feateff(
 used if \code{set} is a \code{GenomicRatioSet} (Default: TRUE)}
 
 \item{UsegeneSymbol}{\code{logical} indicates whether genenames should be used as feature names (Default: FALSE)}
+
+\item{raseq}{\code{logical} indicates if expression data is RNA-seq (TRUE) or microarray (FALSE, default)}
 }
 \description{
 Extracts treatment, the outcome on which the effect is assessed, and feature data from transcriptomic and methylomic studies

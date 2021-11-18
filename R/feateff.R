@@ -19,6 +19,7 @@
 #' @param betas  \code{logical} indicates whether beta values be
 #' used if \code{set} is a \code{GenomicRatioSet} (Default: TRUE)
 #' @param UsegeneSymbol \code{logical} indicates whether genenames should be used as feature names (Default: FALSE)
+#' @param raseq \code{logical} indicates if expression data is RNA-seq (TRUE) or microarray (FALSE, default)
 #'
 #' @examples
 #'
@@ -48,7 +49,8 @@ feateff <- function(set,
                     covtype = NULL,
                     sva = FALSE,
                     betas = TRUE,
-                    UsegeneSymbol=FALSE){
+                    UsegeneSymbol=FALSE,
+                    rnaseq=FALSE){
 
 
   ##get teffdata
@@ -101,7 +103,7 @@ feateff <- function(set,
     features <- Biobase::exprs(set)
     if(UsegeneSymbol==TRUE){
       genesIDs <- fData(set)
-      rownames(features) <- genesIDs$"Symbol"
+      rownames(features) <- genesIDs$"Gene symbol"
     }
   } else if (is(set, "GenomicRatioSet")){
     features <- minfi::getBeta(set)
@@ -136,7 +138,16 @@ feateff <- function(set,
     mod <- model.matrix(fla, data = teffdata)
 
     ns <- sva::num.sv(features, mod, method="be")
-    ss <- sva::sva(features, mod, mod0, n.sv=ns)$sv
+
+    if(rnaseq){
+      ss <- svaseq::sva(features, mod, mod0, n.sv=ns)$sv
+      v <- voom(counts, design = design)
+      features <- v$E
+
+    }else{
+      ss <- sva::sva(features, mod, mod0, n.sv=ns)$sv
+    }
+
     colnames(ss) <- paste("cov", 1:ncol(ss), sep="")
 
     teffdata <- cbind(teffdata, ss)
