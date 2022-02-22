@@ -105,13 +105,6 @@ feateff <- function(set,
       genesIDs <- fData(set)
       rownames(features) <- genesIDs$"Gene symbol"
     }
-  } else if (is(set, "GenomicRatioSet")){
-    features <- minfi::getBeta(set)
-    if (!betas) {
-      features[features == 0] <- 1e-3
-      features[features == 1] <- 1 - 1e-3
-      features <- minfi::logit2(features)
-    }
   } else if (is(set, "SummarizedExperiment")){
     features <- SummarizedExperiment::assay(set)
   } else {

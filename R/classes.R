@@ -29,7 +29,7 @@ plotPredict <- function(x, ..., rk=NULL, lb="Associated treatment effect", xlab 
   colsighet[colsigpositive==1] <- 3
   colsighet[colsignegative==1] <- 3
 
-  coltreatment <- rep("orange", length(x$treatment))
+  coltreatment <- rep("darkorange3", length(x$treatment))
   coltreatment[x$treatment == 1] <- "blue"
 
   ranktau <- rank(x$predictions)
@@ -58,7 +58,7 @@ plotPredict <- function(x, ..., rk=NULL, lb="Associated treatment effect", xlab 
                       wht="bottomleft", whs = "topright")
   }
 
-  graphics::legend(ctrl.plot$wht, legend=ctrl.plot$lb, pch=16, col=c("orange","blue"), bty="n" )
+  graphics::legend(ctrl.plot$wht, legend=ctrl.plot$lb, pch=16, col=c("darkorange3","blue"), bty="n" )
   graphics::legend(ctrl.plot$whs, legend=c("significant"), lty=1, col=3, bty="n" )
 
 }
@@ -113,7 +113,7 @@ plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment"
     dd[[3]] <- factor(dd[[3]], labels = labeff)
 
   ggpubr::ggline(dd, x = labs[1], y = labs[2],
-           add = "mean_ci", color = labs[3], palette = c("orange", "blue"),
+           add = "mean_ci", color = labs[3], palette = c("darkorange3", "blue"),
            xlab=labs[1], main="", ylab=labs[2])
 }
 
@@ -154,13 +154,13 @@ boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not t
       dd[[3]] <- factor(dd[[3]], labels = labeff)
 
     fc <- factor(paste(dd[,2], as.factor(dd[,3]),  sep="-"))
-    boxplot(dd[,1] ~ fc, col=rep(c("orange", "blue"), each=length(levels(factor(dd[,3])))), ylab=labs[2], xlab=labs[1], xaxt="n", yaxt="n", main="", cex.lab=1.4, cex.axis=1.3, cex.main=1.4)
+    boxplot(dd[,1] ~ fc, col=rep(c("darkorange3", "blue"), each=length(levels(factor(dd[,3])))), ylab=labs[2], xlab=labs[1], xaxt="n", yaxt="n", main="", cex.lab=1.4, cex.axis=1.3, cex.main=1.4)
 
     axis(1,at=1:(2*(length(levels(factor(dd[,3]))))),labels=rep(levels(factor(dd[,3])), 2), cex.axis=1.2, cex.lab=1.4)
     axis(2,cex.axis=1.4)
 
     if(length(lg)!=0)
-      legend(lg, legend=labs[4:5], col=c("orange", "blue"), pch=16)
+      legend(lg, legend=labs[4:5], col=c("darkorange3", "blue"), pch=16)
 }
 
 
