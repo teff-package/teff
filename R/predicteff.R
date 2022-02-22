@@ -159,15 +159,15 @@ predicteff <- function(x,
 
     pdf("./interactions.pdf")
       cc <- W.train
-      cc[W.train] <- "red"
-      cc[!W.train] <- "black"
+      cc[W.train] <- "orange"
+      cc[!W.train] <- "blue"
 
       for(ii in 1:ncol(X.train)){
 
         plot(X.train[,ii], log2(Y.train+1), col=cc, main=colnames(X.train)[ii],pch=20, xlab="Mean expression residual", ylab="Outcome")
-        abline(lm(log2(Y.train+1)[W.train] ~ X.train[W.train,ii]),lwd=1.5, lty=2, col="red")
-        abline(lm(log2(Y.train+1)[!W.train] ~ X.train[!W.train,ii]),lwd=1.5, lty=2)
-        legend("topleft",legend=c("Not treated", "Treated"), col=c("black", "red"), pch=20, cex=0.7)
+        abline(lm(log2(Y.train+1)[W.train] ~ X.train[W.train,ii]),lwd=1.5, lty=2, col="blue")
+        abline(lm(log2(Y.train+1)[!W.train] ~ X.train[!W.train,ii]),lwd=1.5, lty=2, col="orange")
+        legend("topleft",legend=c("Male", "Female"), col=c("orange", "blue"), pch=20, cex=0.7)
       }
 
 
@@ -180,14 +180,13 @@ predicteff <- function(x,
 
         int <- seq(min(X.train)-0.5,max(X.train)+0.5, 0.5)
 
-        hist(X.train[W.train,ii], freq=FALSE, br=int,
-             border="red", main=gsub("\n ","-",colnames(X.train)[ii]),
-             xlab="Mean expression residual", ylab="Density", ylim=c(0,0.9))
+        hist(X.train[W.train,ii], freq=FALSE, br=int, main=gsub("\n ","-",colnames(X.train)[ii]),
+             xlab="Mean expression residual", ylab="Density", ylim=c(0,0.9), col="blue", cex.lab=1.3 )
 
-        hist(X.train[!W.train,ii], add=TRUE, freq=FALSE, br=int)
+        hist(X.train[!W.train,ii], add=TRUE, freq=FALSE, br=int, col="orange", cex.lab=1.3)
 
-        legend("topright", legend=c("Not treated", "Treated"), col=c("black", "red"),
-               lty=1,cex=0.7, bty = "n" )
+        legend("topright", legend=c("Male", "Female"), col=c("orange", "blue"),
+               lty=1, bty = "n", cex=1.3)
       }
 
     dev.off()
