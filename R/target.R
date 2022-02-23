@@ -187,7 +187,7 @@ target <- function(x,
       raster::plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c( "green4", "red4"), legend = FALSE)
 
       whchprof <- sum(!pf1)/length(pf1)
-      lines(c(0,1), c(whchprof,whchprof), col="black", lwd=2)
+      lines(c(0,1), c(whchprof,whchprof), col="white", lwd=2)
 
       if(is.null(lb))
         lb <- colnames(Xscale)
@@ -202,7 +202,7 @@ target <- function(x,
       plot(raster::raster(im1), axes = FALSE, box=FALSE , ylab = "",xlab="", col = c("red4", "green4"), legend = FALSE)
 
       whchprof <- sum(!pf2)/length(pf2)
-      lines(c(0,1), c(whchprof,whchprof), col="black", lwd=2)
+      lines(c(0,1), c(whchprof,whchprof), col="white", lwd=2)
 
       if(is.null(lb))
         lb <- colnames(Xscale)
@@ -219,11 +219,11 @@ target <- function(x,
 
       pff <- pf3==-1
       whchprof1 <- sum(!pff)/length(pff)
-      lines(c(0,1),c(whchprof1,whchprof1),col="black", lwd=2)
+      lines(c(0,1),c(whchprof1,whchprof1),col="white", lwd=2)
 
       pff <- pf3==1
       whchprof2 <- 1-sum(!pff)/length(pff)
-      lines(c(0,1),c(whchprof2,whchprof2),col="black", lwd=2)
+      lines(c(0,1),c(whchprof2,whchprof2),col="white", lwd=2)
 
 
       if(is.null(lb))

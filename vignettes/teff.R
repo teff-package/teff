@@ -10,12 +10,14 @@ dim(psoriasis$features)
 head(psoriasis$features[,1:10])
 
 ## -----------------------------------------------------------------------------
-pso <- predicteff(psoriasis, dup=TRUE)
+pso <- predicteff(psoriasis, dup=TRUE, resplevel = 0.2)
 
 pso
 
 ## -----------------------------------------------------------------------------
-plotPredict(pso)
+plotPredict(pso, lb=expression(tau(p)),
+            ctrl.plot = list(lb=c("Placebo", "Brodalumab"),
+                             wht="topleft", whs = "bottomright"))
 
 ## -----------------------------------------------------------------------------
 plotPredict(pso, rk =pasiw12, xlab="Observed PASI week 12")

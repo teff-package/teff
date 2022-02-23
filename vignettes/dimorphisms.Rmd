@@ -36,10 +36,14 @@ We have inferred the amount of T cells in blood in the GTEx individuals and have
 
 # Data
 
-
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 library(teff)
 ```
+
+```{r, echo=FALSE}
+Sys.setenv(VROOM_CONNECTION_SIZE=5000072)
+```
+
 
 The <core>tcell</code> data set is a list that contains the  
 <core>teffdata</core> with variables: <core>eff</core> for the outcome on which the effect is measured, namely the infered T-cell count in blood, <core>t</core> for treatment; 1:male, 2:female, and covariates such as <core>age</core>, <core>bmi</core> and  <core>cov5</core>, which is a surrogate variable estimated for the transcription data, and associated to latent technical differences in their measurement.  
@@ -70,7 +74,9 @@ pred
 ```
 We can plot the prediction of the associated sex effect with confidence intervals. Treated refers to females, and not treated to males. 
 ```{r}
-plotPredict(pred)
+plotPredict(pred, 
+            ctrl.plot=list(lb=c("Male", "Female"),
+                           wht="topleft", whs = "bottomright"))
 ```
 
 For each individual <code>predicteff</code> predicts a sex effect with 95\% confidence intervals. Therefore, individuals that have a significantly negative effect of sex are those for which their specific transcription levels would result in lower T cell count when observed in females than in males. Those with significantly positive effects of sex are those for which their transcription profiles would result in higher T cell count when observed in females than males.  
@@ -86,9 +92,9 @@ The profile for positive dimorphism means, for instance, that the group of indiv
 
 The sexual dimorphic profiles of immune cell count can be used to target individuals from other studies and test whether the profiles present different sex-associated risks or survival of different diseases. The following code shows how to set up data for the transcriptomic study in arthritis GSE17755 from GEO.  
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
 library(GEOquery)
-gsm <- getGEO("GSE17755")
+gsm <- getGEO("GSE17755", AnnotGPL = TRUE)
 gsm <- gsm[[1]]
 
 data4teff <- feateff(gsm, tname="gender:ch1",
