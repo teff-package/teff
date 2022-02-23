@@ -1,5 +1,8 @@
-## ---- message=FALSE, warning=FALSE--------------------------------------------
+## ---- message=FALSE, warning=FALSE, echo=FALSE--------------------------------
 library(teff)
+
+## ---- echo=FALSE--------------------------------------------------------------
+Sys.setenv(VROOM_CONNECTION_SIZE=5000072)
 
 ## -----------------------------------------------------------------------------
 names(tcell)
@@ -17,14 +20,16 @@ pred <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
 pred
 
 ## -----------------------------------------------------------------------------
-plotPredict(pred)
+plotPredict(pred, 
+            ctrl.plot=list(lb=c("Male", "Female"),
+                           wht="topleft", whs = "bottomright"))
 
 ## -----------------------------------------------------------------------------
 pred$profile
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ---- eval=FALSE, warning=FALSE, message=FALSE--------------------------------
 #  library(GEOquery)
-#  gsm <- getGEO("GSE17755")
+#  gsm <- getGEO("GSE17755", AnnotGPL = TRUE)
 #  gsm <- gsm[[1]]
 #  
 #  data4teff <- feateff(gsm, tname="gender:ch1",
