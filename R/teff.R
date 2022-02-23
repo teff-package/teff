@@ -17,7 +17,6 @@
 #' @import Biobase
 #' @import methods
 #' @import graphics
-#' @import minfi
 #' @import ggplot2
 #' @importFrom graphics lines points plot
 #' @importFrom parallel mclapply
