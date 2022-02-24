@@ -7,11 +7,11 @@
 \usage{
 plotPredict(
   x,
-  ...,
   rk = NULL,
   lb = "Associated treatment effect",
   xlab = "Subject Ranking",
-  ctrl.plot = NULL
+  ctrl.plot = NULL,
+  ...
 )
 }
 \arguments{
@@ -26,11 +26,15 @@ plotted against their ranking, if not then they ara plotted against rk values.}
 
 \item{ctrl.plot}{controls plot legends (when NULL then internally ctrl.plot <- list(lb=c("Not treated", "Treated"),
 wht="bottomleft", whs = "topright"))}
+
+\item{...}{parameters for plotting}
 }
 \value{
 A plot on the current graphics device.
 data(tcell)
-homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX",
+"RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+"USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 pf <- predicteff(tcell, featuresinf=homologous)
 plotPredict(pf)
 }

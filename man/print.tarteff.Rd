@@ -4,10 +4,12 @@
 \alias{print.tarteff}
 \title{Prints tarteff object}
 \usage{
-\method{print}{tarteff}(x)
+\method{print}{tarteff}(x, ...)
 }
 \arguments{
 \item{x}{object of class \code{tarteff}}
+
+\item{...}{parameters for printing}
 }
 \value{
 object of class \code{tarteff}

@@ -18,14 +18,16 @@
 #' @import methods
 #' @import graphics
 #' @import ggplot2
-#' @importFrom graphics lines points plot
+#' @import drc
+#' @importFrom graphics lines points plot boxplot
 #' @importFrom parallel mclapply
 #' @importFrom betareg betareg
-#' @importFrom stats lm glm
+#' @importFrom stats lm glm as.formula complete.cases formula model.matrix predict
 #' @importFrom survival coxph
 #' @importFrom SummarizedExperiment assay
 #' @importFrom ggpubr mean_ci ggline
 #' @importFrom raster plot
-
-
+#' @importFrom sva svaseq
+#' @importFrom grDevices dev.off pdf
+#' @importFrom limma voom
 NULL

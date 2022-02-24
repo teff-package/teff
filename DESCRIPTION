@@ -1,10 +1,10 @@
 Package: teff
 Type: Package
-Title: Profiles and targets subpopulations with high Treatment EEFects. 
+Title: Profiles and targets subpopulations with high Treatment EEFects 
 Version: 0.1.0
 Authors@R: person("Alejandro Caceres", role = c("cre", "aut"), email = "teff.package@gmail.com")
 Description: The aim of the package is to use additional feature data of individuals who have been treated, to profile the group of those who best responded. The profiles can be used to target new individuals equally treated with the same or other type of responses (effects). 
-Depends: R (>= 4.1.1),
+Depends: R (>= 4.1.0),
 License: MIT + file LICENSE
 biocViews: Microarray, Software, WholeGenome
 Imports:
@@ -21,11 +21,13 @@ Imports:
     sva,
     ggplot2,
     ggpubr,
+    drc,
+    limma
 Suggests:
     BiocStyle,
     testthat,
     knitr,
-    rmarkdown,
+    rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

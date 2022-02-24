@@ -44,7 +44,7 @@ used if \code{set} is a \code{GenomicRatioSet} (Default: TRUE)}
 
 \item{UsegeneSymbol}{\code{logical} indicates whether genenames should be used as feature names (Default: FALSE)}
 
-\item{raseq}{\code{logical} indicates if expression data is RNA-seq (TRUE) or microarray (FALSE, default)}
+\item{rnaseq}{\code{logical} indicates if expression data is RNA-seq (TRUE) or microarray (FALSE, default)}
 }
 \description{
 Extracts treatment, the outcome on which the effect is assessed, and feature data from transcriptomic and methylomic studies
@@ -52,23 +52,23 @@ Extracts treatment, the outcome on which the effect is assessed, and feature dat
 \details{
 This function extracts feature and treatment-effects data,
 from  \code{eSet} or \code{SummarizedExperiment} objects
-for profiling with \link[teff]{profile}. The function includes the option of adding
+for profiling with \link[teff]{predicteff}. The function includes the option of adding
 surrogate variables as additional covariates to the treatment-effect data.
 }
 \examples{
 
 \donttest{
-library(GEOquery)
-gsm <- getGEO("GSE17755")
-gsm <- gsm[[1]]
+#library(GEOquery)
+#gsm <- getGEO("GSE17755")
+#gsm <- gsm[[1]]
 
 #in this example we use sex as the treatment variable do detect groups of
 # high sexual dimorphism in arthritis disease.
 
-data4teff <- feateff(gsm, tname="gender:ch1", reft=c("male", "female"),
-                     effname="disease:ch1", refeff=c("healthy","arthritis"),
-                     covnames="age:ch1", covtype="n",
-                     sva=TRUE, UsegeneSymbol=TRUE)
+#data4teff <- feateff(gsm, tname="gender:ch1", reft=c("male", "female"),
+#                      effname="disease:ch1", refeff=c("healthy","arthritis"),
+#                      covnames="age:ch1", covtype="n",
+#                      sva=TRUE, UsegeneSymbol=TRUE)
 
 }
 }

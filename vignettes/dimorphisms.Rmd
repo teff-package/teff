@@ -66,7 +66,10 @@ We then use <code>predictteff</code> to estimate the effect of sex on T cell cou
 The predictor of sexual dimorphism is applied on the \20% of left-out individuals, who are used to estimate the effect of sex on each of them, given their gene expression levels across the genes. For the immune sexual dimorphism, the genes within the features belong to sex chromosomes. For those that are coupled with homologous genes between the sexual chromosomes, we estimate the average levels between homologs and use those as the features in the random forest. The matrix <code>homologous</code> couples the homologs between rows.  
 
 ```{r}
-homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C",
+                      "PRKY","PRKX","RPS4Y1","RPS4X",
+                      "TXLNGY", "TXLNG", "USP9Y", "USP9X",
+                      "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 
 pred <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
 

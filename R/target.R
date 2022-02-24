@@ -4,7 +4,7 @@
 #' into subpopulations associated with the positive and negative effect of treating them
 #' according to a given outcome. The
 #' classification is performed by targeting the feature data (adjusted by
-#' covariates and binarized) to the profiles computed in \link[teff]{profile}.
+#' covariates and binarized) to the profiles computed in \link[teff]{predicteff}.
 #'
 #' The function tests whether the classification of the subjects into groups of positive
 #' and negative treatment effects modulates
@@ -56,9 +56,12 @@
 #' }
 #' @examples
 #' data(tcell)
-#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX",
+#' "RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+#' "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 #' pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
-#' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
+#' res <- target(tcell, pf, effect="positiveandnegative",
+#' featuresinf=homologous, nmcov="age", model="log2")
 #' res
 #'
 target <- function(x,
@@ -255,7 +258,6 @@ target <- function(x,
     }
 
     if(model=="beta"){
-      pdf(plot.name)
       Y[Y==0] <- 1e-5
       Y[Y==1] <- 1-1e-5
       m1 <- summary(betareg(fla, data=dat))
@@ -300,7 +302,7 @@ target <- function(x,
 #' @param binfeatures binarized feature data with respect to the mean value over
 #' the subjects in the feature data to be targeted
 #' @param  profileRef reference profile of positive or negative treatment effects as obtained by
-#' \link[teff]{profile}
+#' \link[teff]{predicteff}
 #' @param match \code{numeric} value between 0 and 1 indicating the level of the match for the targeing
 #' across all the binarized features in the profile. A value of 1 means that all the binarized
 #' features must take identical values in the profile (i,e "positive") for an individual to be clsssified

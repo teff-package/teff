@@ -9,13 +9,16 @@
 #' @param xlab label of the x axis.
 #' @param ctrl.plot controls plot legends (when NULL then internally ctrl.plot <- list(lb=c("Not treated", "Treated"),
 #' wht="bottomleft", whs = "topright"))
+#' @param ... parameters for plotting
 #' @return A plot on the current graphics device.
 #' data(tcell)
-#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX",
+#' "RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+#' "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 #' pf <- predicteff(tcell, featuresinf=homologous)
 #' plotPredict(pf)
 
-plotPredict <- function(x, ..., rk=NULL, lb="Associated treatment effect", xlab = "Subject Ranking", ctrl.plot = NULL){
+plotPredict <- function(x, rk=NULL, lb="Associated treatment effect", xlab = "Subject Ranking", ctrl.plot = NULL, ...){
   if(class(x)!="pteff"){
     stop("x should be of class pteff")
   }
@@ -66,10 +69,11 @@ plotPredict <- function(x, ..., rk=NULL, lb="Associated treatment effect", xlab 
 #' Prints pteff object
 #'
 #' @param x object of class \code{pteff}
+#' @param ... parameters for printing
 #' @return object of class \code{pteff}
 #' @export
 
-print.pteff <- function(x){
+print.pteff <- function(x, ...){
 
   p1 <- x$predictions
   cat("object of class: pteff \n")
@@ -85,15 +89,20 @@ print.pteff <- function(x){
 #' @param labs string of characters for the labels of the plot, it refers in order to labels to use for:
 #'  Treatment effect group, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.
 #' @param labeff string of characters for the labels of the treatment effect default NULL, 0: neutral and 1: positive or negative; or 0: neutral, -1: negative and 1: positive.
+#' @param ... parameters for plotting
 #' @return A plot on the current graphics device
 #' @examples
 #' data(tcell)
-#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
-#' pf <- predicteff(tcell, featuresinf=homologous)
-#' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
+#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY",
+#' "PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+#' "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+#' pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
+#' res <- target(tcell, pf,
+#' effect="positiveandnegative", featuresinf=homologous,
+#' nmcov="age", model="log2")
 #' plotTarget(res)
 
-plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), labeff=NULL){
+plotTarget <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), labeff=NULL, ...){
 
   if(length(x$model)==0){
     stop("not available plot: no iteraction model was fitted")
@@ -129,10 +138,15 @@ plotTarget <- function(x, ..., labs=c("Treatment effect", "Outcome", "Treatment"
 #' @return A plot on the current graphics device#'
 #' @examples
 #' data(tcell)
-#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
-#' pf <- predicteff(tcell, featuresinf=homologous)
-#' res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
-#' boxplot(res, lg="topright")
+#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX",
+#' "RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+#' "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+#' pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
+#' res <- target(tcell, pf, effect="positiveandnegative",
+#' featuresinf=homologous, nmcov="age", model="log2")
+#' boxPlot(res, labs=c("Sexual dimorphism", "T cell count",
+#' "Condition", "Male", "Female"),
+#' lg="bottomleft")
 
 boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"), lg=NULL, labeff=NULL){
 
@@ -168,9 +182,10 @@ boxPlot <- function(x, labs=c("Treatment effect", "Outcome", "Treatment", "Not t
 #'
 #' @param x object of class \code{tarteff}
 #' @return object of class \code{tarteff}
+#' @param ... parameters for printing
 #' @export
 
-print.tarteff <- function(x){
+print.tarteff <- function(x, ...){
   mt <- match(x$effect, c("positive", "positiveandnegative", "negative"))
 
   if(mt==1) lb <- "  positive treatment effect: 1\n"
@@ -200,7 +215,7 @@ print.tarteff <- function(x){
 #'
 #' @param x vector
 #' @param ci confidence limit
-#' @param character error
+#' @param error.limit error
 #' @return vector
 #' @export
 
@@ -217,3 +232,44 @@ mean_ci <- function(x, ci = 0.95, error.limit = "both"){
   )
 }
 
+#' Data with feature (transcriptpmic) and treatment-effect response data
+#' for targeting individuals with a profile associated with high treatment
+#' response, as derived in an independent study with predictteff.
+#'
+#' @name data4teff
+#' @docType data
+#' @keywords datasets
+#' @usage data(data4teff)
+#' @format list with fields: features and teffdata
+NULL
+
+#' Response to Brodalumab treatment of psoriasis. The data is used to compare
+#' the prediction of individual treatment response as inferred by predictteff on
+#' psoriasis data. It is available through data(psoriasis)
+#'
+#' @name pasiw12
+#' @docType data
+#' @keywords datasets
+#' @usage data(psoriasis)
+#' @format vector
+NULL
+
+#' Data example for predictteff, which is used to infer individual Brodalumab
+#' treatment response.
+#'
+#' @name psoriasis
+#' @docType data
+#' @keywords datasets
+#' @usage data(psoriasis)
+#' @format list with fields: features and teffdata
+NULL
+
+#' Data example for predictteff, which is used to infer individual sex effect
+#' on tcell abundance in blood.
+#'
+#' @name tcell
+#' @docType data
+#' @keywords datasets
+#' @usage data(tcell)
+#' @format list with fields: features and teffdata
+NULL

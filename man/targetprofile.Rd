@@ -11,7 +11,7 @@ targetprofile(binfeatures, profileRef, match = 0.8)
 the subjects in the feature data to be targeted}
 
 \item{profileRef}{reference profile of positive or negative treatment effects as obtained by
-\link[teff]{profile}}
+\link[teff]{predicteff}}
 
 \item{match}{\code{numeric} value between 0 and 1 indicating the level of the match for the targeing
 across all the binarized features in the profile. A value of 1 means that all the binarized
