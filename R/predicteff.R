@@ -15,7 +15,7 @@
 #' treatment effects, given by logical vectors across the
 #' features. The logical value of a given profile at feature indicates whether the
 #' adjusted feature of a new individual should be higher than the feature population
-#' mean if the individual is successfully targeted by the profile. See \link[teff]{taget}.
+#' mean if the individual is successfully targeted by the profile. See \link[teff]{targetprofile}.
 #'
 #' @export
 #' @param x a \code{list} with a fields \code{teffdata} and \code{features}.
@@ -62,7 +62,9 @@
 #'
 #' @examples
 #' data(tcell)
-#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+#' homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1",
+#' "RPS4X","TXLNGY", "TXLNG",
+#' "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 #' predicteff(tcell, featuresinf=homologous, profile=TRUE)
 #'
 predicteff <- function(x,

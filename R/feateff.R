@@ -3,7 +3,7 @@
 #'
 #' @details This function extracts feature and treatment-effects data,
 #' from  \code{eSet} or \code{SummarizedExperiment} objects
-#' for profiling with \link[teff]{profile}. The function includes the option of adding
+#' for profiling with \link[teff]{predicteff}. The function includes the option of adding
 #' surrogate variables as additional covariates to the treatment-effect data.
 #' @export
 #' @param set \code{GenomicRatioSet}, \code{eSet} derived object or
@@ -19,22 +19,22 @@
 #' @param betas  \code{logical} indicates whether beta values be
 #' used if \code{set} is a \code{GenomicRatioSet} (Default: TRUE)
 #' @param UsegeneSymbol \code{logical} indicates whether genenames should be used as feature names (Default: FALSE)
-#' @param raseq \code{logical} indicates if expression data is RNA-seq (TRUE) or microarray (FALSE, default)
+#' @param rnaseq \code{logical} indicates if expression data is RNA-seq (TRUE) or microarray (FALSE, default)
 #'
 #' @examples
 #'
 #'\donttest{
-#' library(GEOquery)
-#' gsm <- getGEO("GSE17755")
-#' gsm <- gsm[[1]]
+#'#library(GEOquery)
+#'#gsm <- getGEO("GSE17755")
+#'#gsm <- gsm[[1]]
 #'
 #'#in this example we use sex as the treatment variable do detect groups of
 #'# high sexual dimorphism in arthritis disease.
 #'
-#' data4teff <- feateff(gsm, tname="gender:ch1", reft=c("male", "female"),
-#'                      effname="disease:ch1", refeff=c("healthy","arthritis"),
-#'                      covnames="age:ch1", covtype="n",
-#'                      sva=TRUE, UsegeneSymbol=TRUE)
+#'#data4teff <- feateff(gsm, tname="gender:ch1", reft=c("male", "female"),
+#'#                      effname="disease:ch1", refeff=c("healthy","arthritis"),
+#'#                      covnames="age:ch1", covtype="n",
+#'#                      sva=TRUE, UsegeneSymbol=TRUE)
 #'
 #'}
 
@@ -133,8 +133,8 @@ feateff <- function(set,
     ns <- sva::num.sv(features, mod, method="be")
 
     if(rnaseq){
-      ss <- svaseq::sva(features, mod, mod0, n.sv=ns)$sv
-      v <- voom(counts, design = design)
+      ss <- sva::svaseq(features, mod, mod0, n.sv=ns)$sv
+      v <- limma::voom(features, design = mod)
       features <- v$E
 
     }else{

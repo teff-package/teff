@@ -7,9 +7,9 @@
 \usage{
 plotTarget(
   x,
-  ...,
   labs = c("Treatment effect", "Outcome", "Treatment", "Not treated", "Treated"),
-  labeff = NULL
+  labeff = NULL,
+  ...
 )
 }
 \arguments{
@@ -19,6 +19,8 @@ plotTarget(
 Treatment effect group, Outcome, Treatment, and levels of the treatment like: Treated and not Treated.}
 
 \item{labeff}{string of characters for the labels of the treatment effect default NULL, 0: neutral and 1: positive or negative; or 0: neutral, -1: negative and 1: positive.}
+
+\item{...}{parameters for plotting}
 }
 \value{
 A plot on the current graphics device
@@ -29,8 +31,12 @@ Plots estimated treatment effects of individuals from
 }
 \examples{
 data(tcell)
-homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
-pf <- predicteff(tcell, featuresinf=homologous)
-res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
+homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY",
+"PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+"USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
+res <- target(tcell, pf,
+effect="positiveandnegative", featuresinf=homologous,
+nmcov="age", model="log2")
 plotTarget(res)
 }

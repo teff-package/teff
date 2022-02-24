@@ -4,10 +4,12 @@
 \alias{print.pteff}
 \title{Prints pteff object}
 \usage{
-\method{print}{pteff}(x)
+\method{print}{pteff}(x, ...)
 }
 \arguments{
 \item{x}{object of class \code{pteff}}
+
+\item{...}{parameters for printing}
 }
 \value{
 object of class \code{pteff}

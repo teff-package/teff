@@ -76,7 +76,7 @@ This function uses feature data of individuals to classify them
 into subpopulations associated with the positive and negative effect of treating them
 according to a given outcome. The
 classification is performed by targeting the feature data (adjusted by
-covariates and binarized) to the profiles computed in \link[teff]{profile}.
+covariates and binarized) to the profiles computed in \link[teff]{predicteff}.
 
 The function tests whether the classification of the subjects into groups of positive
 and negative treatment effects modulates
@@ -91,9 +91,12 @@ and/or on the effects of other types of outcomes also expected from the treatmen
 }
 \examples{
 data(tcell)
-homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX",
+"RPS4Y1","RPS4X","TXLNGY", "TXLNG",
+"USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 pf <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
-res <- target(tcell, pf, effect="positiveandnegative", featuresinf=homologous, nmcov="age", model="log2")
+res <- target(tcell, pf, effect="positiveandnegative",
+featuresinf=homologous, nmcov="age", model="log2")
 res
 
 }
