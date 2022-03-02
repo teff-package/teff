@@ -39,7 +39,8 @@ library(teff)
 We ﬁrst obtained clinical data relating to age, BMI, psoriasis area-and-severity-index (PASI) at baseline and week 12 after treatment, and brodalumab or placebo treatment. 
 
 The <core>psoriasis</code> data set is a list that contains the  
-<core>teffdata</core> with variables: <core>eff</core> for the outcome effect, namely the improvement of PASI score at week 12, where 1 encodes: improved PASI after treatment, and 0: did not improve PASI after treatment; <core>t</core> for treatment with 0:placebo, 1:brodalumab; and covariates such as <core>age</core>, <core>bmi</core> and  <core>cov5</core>..., which are surrogate variables estimated for the transcription data, and associated to latent technical differences in their measurement. See Application [Note](https://teff-package.github.io/teff/SupplementaryCaceres2021.html) for details. 
+<core>teffdata</core> with variables: <core>eff</core> for the outcome effect, namely the improvement of PASI score at week 12, where 1 encodes: improved PASI after treatment, and 0: did not improve PASI after treatment; <core>t</core> for treatment with 0:placebo, 1:brodalumab; and covariates such as <core>age</core>, <core>bmi</core> and  <core>cov5</core>..., which are surrogate variables estimated for the transcription data, and associated to latent technical differences in their measurement. See Application [Note](https://teff-package.github.io/teff/SupplementaryCaceres2021.html) for 
+the complete workflow on how to obtain and format the data from GEO database.
 
 ```{r}
 names(psoriasis)
