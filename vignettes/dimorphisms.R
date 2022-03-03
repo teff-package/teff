@@ -13,7 +13,10 @@ dim(tcell$features)
 head(tcell$features)
 
 ## -----------------------------------------------------------------------------
-homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C","PRKY","PRKX","RPS4Y1","RPS4X","TXLNGY", "TXLNG", "USP9Y", "USP9X", "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
+homologous<- matrix(c("DDX3Y","DDX3X","KDM5D","KDM5C",
+                      "PRKY","PRKX","RPS4Y1","RPS4X",
+                      "TXLNGY", "TXLNG", "USP9Y", "USP9X",
+                      "XIST", "XIST", "TSIX", "TSIX"), nrow=2)
 
 pred <- predicteff(tcell, featuresinf=homologous, profile=TRUE)
 
